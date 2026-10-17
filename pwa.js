@@ -50,7 +50,8 @@
   }
 
   function offerUpdate() {
-    byId('pwa-update').classList.toggle('hidden', !registration?.waiting);
+    const pending = Boolean(navigator.serviceWorker.controller && registration?.waiting);
+    byId('pwa-update').classList.toggle('hidden', !pending);
   }
 
   async function update() {
@@ -94,6 +95,7 @@
     if (!canRegister()) { renderState(); return; }
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadForUpdate) { reloadForUpdate = false; window.location.reload(); }
+      else offerUpdate();
     });
     try {
       registration = await navigator.serviceWorker.register('./sw.js', {
@@ -112,6 +114,7 @@
       });
       await navigator.serviceWorker.ready;
       offlineReady = true;
+      offerUpdate();
       renderState();
     } catch {
       setupFailed = true;
