@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Koma Manga Studio",
+  "short_name": "Koma",
+  "description": "Create your own manga books from pictures, with freeform panels and dialogue. Your projects stay on your device.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f4ef",
+  "theme_color": "#f5f4ef",
+  "categories": ["graphics", "productivity", "photo"],
+  "prefer_related_applications": false,
+  "icons": [
+    {"src": "./icons/app-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
