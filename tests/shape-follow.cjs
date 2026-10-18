@@ -34,5 +34,8 @@ startShapeGesture(event(200,200),0,3,el,handle);listeners.pointermove(event(200,
 startShapeGesture(event(200,200),0,3,el,handle);listeners.pointermove(event(200,160,2));assert.equal(snapshot(),fullBefore);listeners.pointermove(event(200,160));listeners.pointerup(event(200,160));const edited=snapshot();assert.equal(undoStack.length,1);undo();assert.equal(snapshot(),fullBefore);redo();assert.equal(snapshot(),edited);
 startShapeGesture(event(200,160),0,3,el,handle);listeners.pointermove(event(200,180));events.keydown({key:'Escape',preventDefault(){}});assert.equal(snapshot(),edited);
 console.log('PASS: the real pointer handler updates neighbors live, rejects unrelated pointers, restores all frames on cancel/Escape, and records one Undo step');
+book.pages.push(newPage());activePage=1;selectedPanel=0;touchTool='shape';setTouchTool=tool=>touchTool=tool;closeDrawers=()=>{};editPanelShape();assert.equal(panel().shape,'custom');assert.equal(touchTool,'shape');
+console.log('PASS: after changing pages, a single Shape action edits the newly selected frame');
+
 `,c);
 console.log('All joined-shape checks passed.');

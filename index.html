@@ -212,16 +212,16 @@ const KomaPanelShapes=(()=>{
 let designerTab='panel',selectedShapePoint=0;
 function selectDesignerTab(tab){if(designerTab!==tab)$('inspector').scrollTop=0;designerTab=tab;document.querySelectorAll('[data-studio-tab]').forEach(b=>{const active=b.dataset.studioTab===tab;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});document.querySelectorAll('[data-studio-pane]').forEach(p=>p.hidden=p.dataset.studioPane!==tab);const titles={layout:'Page layout',panel:'Panel Designer',picture:'Picture adjustments',text:'Dialogue & lettering',book:'Book & app'};$('designer-title').textContent=titles[tab];$('settings-sheet-title').textContent=titles[tab]}
 function renderDesignerSettings(){
- const n=panel(),ps=KomaPanelShapes.points(n);selectedShapePoint=clamp(selectedShapePoint,0,ps.length-1);
+ const n=panel(),ps=KomaPanelShapes.points(n),editing=touchTool==='shape'&&n.shape==='custom'&&page().layout==='freeform';selectedShapePoint=clamp(selectedShapePoint,0,ps.length-1);
  $('designer-context').textContent=`PAGE ${String(activePage+1).padStart(2,'0')} / PANEL ${String(selectedPanel+1).padStart(2,'0')}`;
  document.querySelectorAll('[data-panel-shape]').forEach(b=>{const active=b.dataset.panelShape===(n.shape||'rect');b.setAttribute('aria-pressed',String(active))});
- $('shape-edit').textContent=touchTool==='shape'?'Finish editing corners':'Edit corners on canvas';$('shape-edit').setAttribute('aria-pressed',String(touchTool==='shape'));
+ $('shape-edit').textContent=editing?'Finish editing corners':'Edit corners on canvas';$('shape-edit').setAttribute('aria-pressed',String(editing));
  $('shape-point-tools').hidden=n.shape!=='custom'||page().layout!=='freeform';$('corner-radius').disabled=n.shape!=='rect';
  const picker=$('shape-point');picker.replaceChildren();ps.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Point '+(i+1);picker.append(o)});picker.value=selectedShapePoint;
  $('point-x').value=ps[selectedShapePoint][0];$('point-y').value=ps[selectedShapePoint][1];$('add-shape-point').disabled=ps.length>=12;$('remove-shape-point').disabled=ps.length<=3;
  $('touch-shape').classList.toggle('active',touchTool==='shape');$('touch-shape').setAttribute('aria-pressed',String(touchTool==='shape'));
 }
-function editPanelShape(){if(touchTool==='shape'){setTouchTool('edit');renderSettings();return}if(panel().shape!=='custom'||page().layout!=='freeform')change(()=>{freeformForShape(page());if(panel().shape!=='custom'){panel().shapePoints=KomaPanelShapes.points(panel());panel().shape='custom'}});selectedShapePoint=0;setTouchTool('shape');renderSettings();closeDrawers();toast('Drag a corner. Joined panel edges follow. Move returns to panel placement.')}
+function editPanelShape(){if(touchTool==='shape'&&panel().shape==='custom'&&page().layout==='freeform'){setTouchTool('edit');renderSettings();return}if(panel().shape!=='custom'||page().layout!=='freeform')change(()=>{freeformForShape(page());if(panel().shape!=='custom'){panel().shapePoints=KomaPanelShapes.points(panel());panel().shape='custom'}});selectedShapePoint=0;setTouchTool('shape');renderSettings();closeDrawers();toast('Drag a corner. Joined panel edges follow. Move returns to panel placement.')}
 
 // Shape joins use page-space edges, including a point inserted inside a
 // neighbor's straight edge. A single edit therefore carries through T junctions.
