@@ -1,6 +1,6 @@
 # Koma Manga Studio
 
-Koma is a free, installable progressive web app with no build step, application accounts, API keys, or third-party runtime dependencies. Keep `index.html`, `pwa.js`, `book-store.js`, `image-tools.js`, `sw.js`, `manifest.webmanifest`, and the `icons/` folder together when hosting it. The core editor can still open directly from the HTML file, but installation and offline relaunch require a secure hosted address.
+Koma is a free, installable progressive web app with no build step, application accounts, API keys, or third-party runtime dependencies. Keep `index.html`, `pwa.js`, `book-store.js`, `image-tools.js`, `book-output.js`, `sw.js`, `manifest.webmanifest`, and the `icons/` folder together when hosting it. The core editor can still open directly from the HTML file, but installation and offline relaunch require a secure hosted address.
 
 ## Install on your phone
 
@@ -23,6 +23,14 @@ To package a new version from the workspace, run `python3 package_pwa.py`. This 
 Tap **Books** beside the book title to see saved books with first-page covers. Create a blank book, search, rename, make an independent copy, or open another book. **Import** adds a downloaded project as a separate book. Switching books saves the open book first and resets undo history. Delete removes a device copy permanently after confirmation; open another book before deleting the current one.
 
 The previous single-book autosave is copied into the library on the first launch of this version. Its original storage record is retained. The library works offline after the app update finishes. Books remain specific to this device, browser, and site address; download project backups for transfer or safekeeping.
+
+## Read and download a complete book
+
+Tap **Read** beside **Books** for a clean preview. Use Previous / Next, the page slider, or swipe between pages. **Manga · right to left** makes a rightward swipe (or the left arrow key) advance; **Left to right** reverses that behavior. The selector saves the reading direction in the editable project. Old projects default to manga reading direction. Native pinch zoom remains available in the reader.
+
+Choose **Download CBZ** in the reader, or **Export → Download whole book**. Koma renders every page at 1800 × 2544 as a PNG, then builds a CBZ archive with ordered page filenames and ComicInfo metadata for title, page count, and reading direction. Pages stay in story order in both reading modes. The ComicInfo direction follows the [Anansi ComicInfo 2.0 schema](https://anansi-project.github.io/docs/comicinfo/schemas/v2.0); a comic reader must support that metadata to apply it automatically.
+
+On phones, use **Save book** or **Share book** when available. On desktop, the archive downloads directly. A progress dialog allows cancellation without downloading an incomplete archive. Export runs on the device and works offline. Keep an editable project backup too: CBZ contains finished pages rather than editable panels. The reader retains at most three rendered pages and releases their temporary image URLs when closed.
 
 ## Make a manga book
 
@@ -79,3 +87,5 @@ PWA checks cover offline shell/icon requests, caching boundaries, deletion of on
 Library checks cover independent book records, cover metadata, activation, atomic write failure, deletion isolation, preservation of legacy data, queued save ordering, and snapshots before asynchronous work. Picture checks cover anchored pinch math, 1,000 bounded gesture cases, exported-project offset validation, real pointer handlers, touch jitter, pan/pinch/pan transitions, cancellation, and single-step undo.
 
 Live browser checks for the library covered migration of the previous saved book, blank-book creation, reload persistence, independent copying, renaming, searching, switching, direct picture dragging, and persistence of image offsets without changing the original book. Two-finger pinch was checked through pointer-handler and geometry tests; it has not been exercised on physical phone hardware.
+
+Reader/export checks cover direction-aware keyboard and swipe navigation, scroll/jitter rejection, project migration and validation, reader cache limits and URL cleanup, closing while a page renders, archive cancellation, rendering failures, and ZIP filename validation. A separate Python ZIP reader verified all 40 ordered entries and CRC checksums from a generated archive, and XML parsing verified escaped Unicode titles and ComicInfo direction.
