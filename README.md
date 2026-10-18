@@ -24,6 +24,14 @@ Tap **Books** beside the book title to see saved books with first-page covers. C
 
 The previous single-book autosave is copied into the library on the first launch of this version. Its original storage record is retained. The library works offline after the app update finishes. Books remain specific to this device, browser, and site address; download project backups for transfer or safekeeping.
 
+## Sound effects and rotated lettering
+
+Open **Text → Sound effect** to add outlined manga lettering such as **BAM!**. Edit the words, font, size, alignment, text color, and outline color. **Letter outline** controls stroke thickness from 0 to 8 pixels. The background stays transparent, and the words display in uppercase. The Impact lettering choice uses available system fonts, with local fallbacks; no font download is needed.
+
+Use **Text rotation** to tilt sound effects, speech bubbles, thoughts, or captions from −60° to 60°. Drag lettering in **Move** mode to place it. **Duplicate** makes an independent editable copy, including its styling, and offsets it slightly. Undo and redo support these changes. Each panel supports 12 lettering elements in total.
+
+Sound effects share measured line breaks, outline padding, and font-baseline placement between the editor and rendered pages. Rotation and outlines are included in the reader, covers, PNG, PDF, and CBZ output. A warning appears when the lettering box extends outside any edge of its panel. Existing projects open with zero rotation and no text outline on ordinary dialogue.
+
 ## Save and reuse custom layouts
 
 In **Settings**, arrange a page, then tap **Save layout** and give it a name. **My layouts** shows previews of up to 40 saved layouts, with search, rename, download, import, and delete controls. Both freeform arrangements and the built-in templates can be saved.
@@ -54,7 +62,7 @@ On phones, use **Save book** or **Share book** when available. On desktop, the a
 8. Use **Save project** to download an editable `.koma.json` backup. Use **Open** to import it into your library later. Files from the first version still open, with their original panel positions preserved when converted to Freeform.
 9. Use **Export book** to download the current page as a 1800 × 2544 PNG, or print the entire book. In the print dialog, select **Save as PDF**, **A5**, **no margins**, and disable headers and footers.
 
-All features are free and run on your device. Pictures are resized to a maximum of 2000 pixels on the longest side. Nothing is uploaded. The editor supports up to 40 pages, 16 visible freeform panels per page, 60 pictures, and 12 dialogue elements per panel. Pictures in hidden template slots are retained when switching layouts.
+All features are free and run on your device. Pictures are resized to a maximum of 2000 pixels on the longest side. Nothing is uploaded. The editor supports up to 40 pages, 16 visible freeform panels per page, 60 pictures, and 12 dialogue or sound-effect elements per panel. Pictures in hidden template slots are retained when switching layouts.
 
 Autosave uses browser storage when available. Browser privacy settings and local-file restrictions can affect storage, so download a project backup for anything you want to keep. Projects are stored separately for each browser and site address.
 
@@ -105,3 +113,5 @@ Live browser checks at 390 × 844 verified a two-page clean reader, Previous / N
 Custom-layout checks cover all 54 preset/margin/spacing combinations, independent geometry copies, preservation and recovery of hidden pictures/dialogue, image-adjustment and chapter/footer preservation, portable-file normalization that strips private content, 15 malformed layout cases, whole-book application with single-step Undo, and isolated storage operations including failed writes.
 
 Live browser checks at 390 × 844 verified saving a freeform layout, importing a synthetic `.koma-layout.json` through the file picker, searching, renaming, persistence across reloads, and applying a four-panel layout to both pages of a test book. All three existing pictures and dialogue elements remained present, and one Undo restored the original geometry. No browser console errors were observed.
+
+Lettering checks cover sound-effect creation and migration, independent duplication with bounded coordinates and single-step Undo, the shared 12-element limit, validation of rotation/outline/font/type values, Unicode line wrapping, outline padding and baseline measurement, transparent outlined exports, stroke-before-fill ordering, optional outline removal, rotated ordinary dialogue, balanced canvas state, and warnings at all panel edges.
