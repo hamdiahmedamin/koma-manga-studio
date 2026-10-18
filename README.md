@@ -152,3 +152,13 @@ Adjoining frames may expand to contain their new outlines; pictures and letterin
 A gesture is one Undo step for the entire joined edit. Escape/cancel restores all affected shapes and frames. Shape editing a template switches to Freeform while keeping its visible arrangement. Shared shapes carry through project backups, layouts, covers, reader and exports. Clicks in cutout areas reach the visible panel beneath them.
 
 Run `node tests/shape-follow.cjs` for the original pointer regression, shared endpoint/gutter preservation, inserted midpoint joins, returning a divider without bounds drift, T/four-panel propagation, 720 non-overlapping template-derived cases, joined-point removal, project/layout round trips, hidden content preservation, cancellation and single-step undo/redo.
+
+## Automatic picture layouts
+
+Open **Pictures → Auto layout**, or **Designer → Layout → Arrange pictures into pages**. Tap thumbnails in story order; their numbered badges show the selection order. Choose 1–6 pictures per page and either filled panels or whole pictures. Select all uses the library order.
+
+**Create pages** inserts the complete batch after the current page. The last page uses exactly the remaining pictures. Picture placement follows the book's right-to-left or left-to-right reading direction. New pages inherit the current page's paper, spacing, picture effect, chapter and header/footer settings, plus the selected panel's border/background style. Frames start rectangular with fresh picture positioning and no lettering; existing pages remain intact. All generated frames support the normal Freeform, shape and picture tools.
+
+A complete batch is one Undo step. Generation respects the 40-page book limit and never creates a partial batch when it will not fit. Switching books clears the temporary selection.
+
+Run `node tests/auto-layout.cjs` for 144 combinations of batching, ordering, reading direction and picture fit; exact final-page counts; independent page/frame state; metadata/content preservation; project validation; actual creation and single-step Undo/Redo; missing assets; book switching; and atomic capacity checks.
