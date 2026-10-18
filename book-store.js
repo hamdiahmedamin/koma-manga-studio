@@ -8,6 +8,7 @@ globalThis.KomaBookStore = (() => {
   const META = 'library:meta:';
   const ACTIVE = 'library:active';
   const LEGACY = 'library:legacy-fingerprint';
+  const LAYOUT = 'library:layout:';
   const result = request => new Promise((resolve, reject) => {
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
@@ -68,5 +69,20 @@ globalThis.KomaBookStore = (() => {
     store.delete(META + id);
     await finished;
   }
-  return {open, session, load, list, save, activate, remove};
+  async function listLayouts(db) {
+    const range = IDBKeyRange.bound(LAYOUT, LAYOUT + '\uffff');
+    const records = await result(db.transaction(STORE).objectStore(STORE).getAll(range));
+    return records.sort((a, b) => b.updatedAt - a.updatedAt);
+  }
+  async function saveLayout(db, record) {
+    const tx = db.transaction(STORE, 'readwrite'), finished = done(tx);
+    tx.objectStore(STORE).put(record, LAYOUT + record.id);
+    await finished;
+  }
+  async function removeLayout(db, id) {
+    const tx = db.transaction(STORE, 'readwrite'), finished = done(tx);
+    tx.objectStore(STORE).delete(LAYOUT + id);
+    await finished;
+  }
+  return {open, session, load, list, save, activate, remove, listLayouts, saveLayout, removeLayout};
 })();

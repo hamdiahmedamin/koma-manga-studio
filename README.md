@@ -24,6 +24,16 @@ Tap **Books** beside the book title to see saved books with first-page covers. C
 
 The previous single-book autosave is copied into the library on the first launch of this version. Its original storage record is retained. The library works offline after the app update finishes. Books remain specific to this device, browser, and site address; download project backups for transfer or safekeeping.
 
+## Save and reuse custom layouts
+
+In **Settings**, arrange a page, then tap **Save layout** and give it a name. **My layouts** shows previews of up to 40 saved layouts, with search, rename, download, import, and delete controls. Both freeform arrangements and the built-in templates can be saved.
+
+A saved layout includes panel geometry, stacking order, borders, backgrounds, corner rounding, aspect locks, page margin, template spacing, paper color, header/footer visibility, snapping, and guides. It excludes pictures, picture adjustments, dialogue, chapter text, footer text, and the page picture filter.
+
+Choose **This page** or **All pages in this book**, then tap **Apply**. Pictures and dialogue stay in the same numbered panels. If the layout has fewer panels, extra content remains stored in hidden slots; applying a larger layout reveals it again. Applying to all pages is one Undo step. Each page receives an independent copy of the geometry.
+
+Download a `.koma-layout.json` file to back up or transfer a layout, then use **My layouts → Import** on the other device. Imported files are limited to 150 KB and validated before saving. Layouts use the same device database as your books, under separate keys; no database upgrade is needed. Deleting a saved layout does not change pages already using it. Layouts are separate from editable book project backups.
+
 ## Read and download a complete book
 
 Tap **Read** beside **Books** for a clean preview. Use Previous / Next, the page slider, or swipe between pages. **Manga · right to left** makes a rightward swipe (or the left arrow key) advance; **Left to right** reverses that behavior. The selector saves the reading direction in the editable project. Old projects default to manga reading direction. Native pinch zoom remains available in the reader.
@@ -91,3 +101,5 @@ Live browser checks for the library covered migration of the previous saved book
 Reader/export checks cover direction-aware keyboard and swipe navigation, scroll/jitter rejection, project migration and validation, reader cache limits and URL cleanup, closing while a page renders, archive cancellation, rendering failures, and ZIP filename validation. A separate Python ZIP reader verified all 40 ordered entries and CRC checksums from a generated archive, and XML parsing verified escaped Unicode titles and ComicInfo direction.
 
 Live browser checks at 390 × 844 verified a two-page clean reader, Previous / Next boundary states, keyboard turns in both reading directions, and generation of a two-page 1.5 MB CBZ with the phone save dialog. The in-app browser did not deliver download events or a retrievable file, so the real browser-generated CBZ download and Android save/share behavior remain unverified. Archive construction itself passed independent ZIP/XML validation.
+
+Custom-layout checks cover all 54 preset/margin/spacing combinations, independent geometry copies, preservation and recovery of hidden pictures/dialogue, image-adjustment and chapter/footer preservation, portable-file normalization that strips private content, 15 malformed layout cases, whole-book application with single-step Undo, and isolated storage operations including failed writes.
