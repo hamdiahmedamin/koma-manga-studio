@@ -72,8 +72,8 @@ Keyboard shortcuts: **Ctrl/Command Z** to undo, **Ctrl/Command Shift Z** to redo
 
 ## On a phone or touch tablet
 
-- Use the bottom toolbar: **Canvas**, **Pictures**, **Settings**, and **Text**. Pictures and settings open in scrollable sheets with a close button. Tap the shaded area or Canvas to return to your page. Placing a picture returns you to the canvas automatically.
-- Choose **Picture** to drag a picture inside its panel. Use two fingers on the picture to zoom while keeping the image under your fingers. Lift one finger to continue dragging. Each gesture is one undo step; **Escape** cancels it. The same mode is available from **Drag / pinch picture** in Settings, with offset sliders for precise adjustments.
+- Use the bottom toolbar: **Canvas**, **Pictures**, **Designer**, and **Text**. Pictures and settings open in scrollable sheets with a close button. Tap the shaded area or Canvas to return to your page. Placing a picture returns you to the canvas automatically.
+- Choose **Picture** to drag a picture inside its panel. Use two fingers on the picture to zoom while keeping the image under your fingers. Lift one finger to continue dragging. Each gesture is one undo step; **Escape** cancels it. The same mode is available from **Drag / pinch picture** in Designer → Image, with offset sliders for precise adjustments.
 - Choose **Move** to drag panels and bubbles or resize a panel using its corner handles. Choose **View** to scroll the canvas without changing your layout. Use **+** and **−** to zoom from 60% to 300%, and **Fit** to see the whole page. Browser pinch zoom is available in View mode.
 - Use **Text** to open dialogue controls. Settings fields use larger text to avoid automatic input zoom, and the editor adapts to the on-screen keyboard and safe areas.
 - Swipe the page strip to see more pages. The **+** tile adds a page. The **three dots** menu contains reorder, duplicate, and delete actions.
@@ -115,3 +115,17 @@ Custom-layout checks cover all 54 preset/margin/spacing combinations, independen
 Live browser checks at 390 × 844 verified saving a freeform layout, importing a synthetic `.koma-layout.json` through the file picker, searching, renaming, persistence across reloads, and applying a four-panel layout to both pages of a test book. All three existing pictures and dialogue elements remained present, and one Undo restored the original geometry. No browser console errors were observed.
 
 Lettering checks cover sound-effect creation and migration, independent duplication with bounded coordinates and single-step Undo, the shared 12-element limit, validation of rotation/outline/font/type values, Unicode line wrapping, outline padding and baseline measurement, transparent outlined exports, stroke-before-fill ordering, optional outline removal, rotated ordinary dialogue, balanced canvas state, and warnings at all panel edges.
+
+
+## Panel Designer and professional workspace
+
+The compact desktop workspace has graphite app controls, a source-image column, the page canvas and a focused inspector. Designer tabs separate Layout, Panel, Image, Text and Book controls. On a phone, tap **Designer** to open the same tools in a touch-friendly sheet. Installation and app updates are under **Designer → Book**.
+
+- Choose **Panel** and select Rectangle, Ellipse, Diagonal, Trapezoid, Diamond or Hexagon. Shape presets work with both templates and freeform page layouts.
+- Tap **Edit corners on canvas** to convert the current shape into an editable polygon. An ellipse becomes an eight-point polygon. Drag numbered points, or focus one and use the arrow keys (Shift moves farther).
+- Select a corner in the inspector for precise X/Y coordinates. **Add point** inserts a point after it, and **Remove point** removes it. Polygons support 3–12 points, including concave cutouts. Crossed edges, tiny edges and collapsed shapes are prevented.
+- Use **Shape** below the canvas to return to corner editing, **Move** to move/resize whole panels, **Picture** to pan or pinch the picture, and **View** to explore the page.
+- Corner drags are a single Undo step. Escape or a cancelled touch restores the original shape. Presets and point edits preserve pictures and lettering.
+- Custom shapes and inside borders carry through project backups, reusable layouts, new/duplicated pages, book covers, page thumbnails, reader, PNG, CBZ and print exports. Existing books and saved layouts migrate to rectangles.
+
+Run `node tests/designer.cjs` for shape geometry, project/layout migration, invalid import rejection, independent copies, concave polygons, 5,000 bounded point moves, add/remove controls, Canvas geometry and real point-pointer cancellation/undo checks.
