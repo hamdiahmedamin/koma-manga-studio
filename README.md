@@ -123,7 +123,7 @@ The compact desktop workspace has graphite app controls, a source-image column, 
 
 - Choose **Panel** and select Rectangle, Ellipse, Diagonal, Trapezoid, Diamond or Hexagon. Shape presets work with both templates and freeform page layouts.
 - Tap **Edit corners on canvas** to convert the current shape into an editable polygon. An ellipse becomes an eight-point polygon. Drag numbered points, or focus one and use the arrow keys (Shift moves farther).
-- Select a corner in the inspector for precise X/Y coordinates. **Add point** inserts a point after it, and **Remove point** removes it. Polygons support 3–12 points, including concave cutouts. Crossed edges, tiny edges and collapsed shapes are prevented.
+- Select a corner in the inspector for precise X/Y coordinates. **Add point** inserts a point after it, and **Remove point** removes it. Polygons support 3–12 points, including concave cutouts. Joined straight edges move together when you drag a corner. Crossed edges, tiny edges and collapsed shapes are prevented.
 - Use **Shape** below the canvas to return to corner editing, **Move** to move/resize whole panels, **Picture** to pan or pinch the picture, and **View** to explore the page.
 - Corner drags are a single Undo step. Escape or a cancelled touch restores the original shape. Presets and point edits preserve pictures and lettering.
 - Custom shapes and inside borders carry through project backups, reusable layouts, new/duplicated pages, book covers, page thumbnails, reader, PNG, CBZ and print exports. Existing books and saved layouts migrate to rectangles.
@@ -136,8 +136,19 @@ Live browser checks at 390 × 844 verified the Designer sheet and presets, direc
 
 In Freeform, resizing a frame automatically adjusts adjoining frames along the shared divider. Rows, columns, T junctions and connected four-panel junctions stay aligned and retain their existing gutters. Adjacency uses the page's panel-spacing setting, with a small tolerance for rounded coordinates. Detached frames and deliberate overlaps stay independent.
 
-Corner dragging, Alt + arrow resizing and Width/Height fields share this behavior. Moving a whole panel or changing its X/Y position remains independent. Corner-point shape edits continue to affect only that shape. A connected resize stops before any frame becomes smaller than 10% page width or 8% page height. The selected frame's proportion lock is preserved; adjoining frames adapt to the divider as they do when applying a layout.
+Corner dragging, Alt + arrow resizing and Width/Height fields share this behavior. Moving a whole panel or changing its X/Y position remains independent. Corner-point shape edits also bend adjoining straight panel edges. A connected resize stops before any frame becomes smaller than 10% page width or 8% page height. The selected frame's proportion lock is preserved; adjoining frames adapt to the divider as they do when applying a layout.
 
 A drag is one Undo step for every affected frame. Escape or a cancelled gesture restores all frame positions. Pictures, shapes, lettering, hidden panels and page order are preserved. Saved projects, reusable layouts, thumbnails and exports use the resulting geometry.
 
 Run `node tests/linked-resize.cjs` for row/column following, junctions, gutter preservation, minimum sizes, proportion locks, independent overlapping/detached panels, 2,880 template-derived corner resizes, numeric fields, content preservation, live SVG updates, cancellation, reversing from limits and single-step undo/redo.
+
+
+## Joined shape corners
+
+In **Shape** mode, dragging a numbered corner now bends adjoining straight panel edges with it. The connection follows actual polygon edges, including T junctions and four-panel junctions. Adding a midpoint and pulling it inserts a matching point in the neighboring edge when needed. Removing a joined corner straightens the adjoining edge too. Keyboard arrows and corner X/Y fields use the same geometry.
+
+Adjoining frames may expand to contain their new outlines; pictures and lettering continue to fill each frame. Existing gaps are retained as offsets between joined edges. Separate artwork, deliberate overlaps and curved ellipse edges remain independent. Shapes stop before an adjoining polygon folds over or leaves the page. A neighbor already using all 12 corners may require removing a point before another join can be inserted.
+
+A gesture is one Undo step for the entire joined edit. Escape/cancel restores all affected shapes and frames. Shape editing a template switches to Freeform while keeping its visible arrangement. Shared shapes carry through project backups, layouts, covers, reader and exports. Clicks in cutout areas reach the visible panel beneath them.
+
+Run `node tests/shape-follow.cjs` for the original pointer regression, shared endpoint/gutter preservation, inserted midpoint joins, returning a divider without bounds drift, T/four-panel propagation, 720 non-overlapping template-derived cases, joined-point removal, project/layout round trips, hidden content preservation, cancellation and single-step undo/redo.

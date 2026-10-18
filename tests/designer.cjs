@@ -2,7 +2,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const core=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\ninit\(\);\s*$/,'');
-function node(){return {dataset:{},style:{},children:[],append(...ns){this.children.push(...ns)},replaceChildren(){this.children=[]},setAttribute(){},classList:{toggle(){}},focus(){},addEventListener(){},removeEventListener(){}}}
+function node(){return {dataset:{},style:{},querySelectorAll:()=>[],children:[],append(...ns){this.children.push(...ns)},replaceChildren(){this.children=[]},setAttribute(){},classList:{toggle(){}},focus(){},addEventListener(){},removeEventListener(){}}}
 const ids=new Map(),get=id=>{if(!ids.has(id))ids.set(id,node());return ids.get(id)};
 const docEvents={},document={getElementById:get,querySelectorAll:()=>[],createElement:node,addEventListener:(k,f)=>docEvents[k]=f,removeEventListener:(k,f)=>{if(docEvents[k]===f)delete docEvents[k]}};
 const ctx=vm.createContext({assert,console,document,crypto:require('node:crypto').webcrypto,setTimeout,clearTimeout,window:{matchMedia:()=>({matches:false})}});
