@@ -253,7 +253,49 @@ function transformRect(r,dx,dy,handle='move',snap=false,locked=false){
  if(locked){const scale=Math.abs(dx/r.w)>Math.abs(dy/r.h)?w/r.w:h/r.h;const maxW=west?r.x+r.w:100-r.x,maxH=north?r.y+r.h:100-r.y;const minScale=Math.max(10/r.w,8/r.h),maxScale=Math.min(maxW/r.w,maxH/r.h);const s=clamp(scale,minScale,maxScale);w=r.w*s;h=r.h*s}else{w=clamp(w,10,west?r.x+r.w:100-r.x);h=clamp(h,8,north?r.y+r.h:100-r.y)}
  return constrainRect({x:west?r.x+r.w-w:r.x,y:north?r.y+r.h-h:r.y,w,h});
 }
-function editRect(field,value){const n=panel(),r=n.rect;if(!Number.isFinite(value))return;const next={...r,[field]:value};if(n.locked&&(field==='w'||field==='h')){const s=clamp(value/r[field],Math.max(10/r.w,8/r.h),Math.min((100-r.x)/r.w,(100-r.y)/r.h));next.w=r.w*s;next.h=r.h*s}n.rect=constrainRect(next)}
+// Treat adjoining frame edges as a divider. Positions remain normalized to the
+// page, while adjacency tolerances use page pixels so portrait/landscape gaps match.
+function linkedPanelRects(p,index,originals,requested){
+ const source=originals.map(r=>({...r})),start=source[index],box=pageBox(p),plans=[];
+ for(const axis of ['x','y']){
+  const size=axis==='x'?'w':'h',cross=axis==='x'?'y':'x',crossSize=axis==='x'?'h':'w',minimum=axis==='x'?10:8;
+  const epsilon=.6/(axis==='x'?box.w:box.h)*100,crossEpsilon=.6/(axis==='x'?box.h:box.w)*100;
+  const gapLimit=p.gutter/(axis==='x'?box.w:box.h)*100+epsilon,crossGap=p.gutter/(axis==='x'?box.h:box.w)*100+crossEpsilon;
+  const lowDelta=requested[axis]-start[axis],highDelta=requested[axis]+requested[size]-start[axis]-start[size];
+  const side=Math.abs(lowDelta)>.00001?0:1,delta=side===0?lowDelta:highDelta;if(Math.abs(delta)<.00001)continue;
+  const nodes=source.flatMap((r,i)=>[0,1].map(edge=>({i,edge,pos:r[axis]+(edge?r[size]:0),from:r[cross],to:r[cross]+r[crossSize]})));
+  const root=index*2+side,connected=new Set([root]),queue=[root];
+  while(queue.length){const a=nodes[queue.shift()];for(let j=0;j<nodes.length;j++){
+   if(connected.has(j))continue;const b=nodes[j];if(a.i===b.i)continue;
+   let joins=false;
+   if(a.edge===b.edge){const separation=Math.max(a.from-b.to,b.from-a.to);joins=Math.abs(a.pos-b.pos)<=epsilon&&separation>=-crossEpsilon&&separation<=crossGap}
+   else{const gap=a.edge?b.pos-a.pos:a.pos-b.pos,overlap=Math.min(a.to,b.to)-Math.max(a.from,b.from);joins=gap>=-epsilon&&gap<=gapLimit&&overlap>crossEpsilon}
+   if(joins){connected.add(j);queue.push(j)}
+  }}
+  // A loop around overlapping frames is not an unambiguous shared divider.
+  if(Array.from(connected).some(k=>connected.has(k^1))){connected.clear();connected.add(root)}
+  let min=-Infinity,max=Infinity;
+  for(const k of connected){const n=nodes[k],r=source[n.i];if(n.edge){min=Math.max(min,minimum-r[size]);max=Math.min(max,100-r[axis]-r[size])}else{min=Math.max(min,-r[axis]);max=Math.min(max,r[size]-minimum)}}
+  plans.push({axis,size,nodes,connected,delta,allowed:clamp(delta,min,max)});
+ }
+ // The selected frame's proportion lock also survives a neighbor reaching its limit.
+ const fraction=p.panels[index].locked?Math.min(1,...plans.map(a=>Math.abs(a.delta)>.00001?clamp(a.allowed/a.delta,0,1):1)):1;
+ const result=source.map(r=>({...r}));
+ for(const plan of plans){const delta=p.panels[index].locked?plan.delta*fraction:plan.allowed;for(const k of plan.connected){const n=plan.nodes[k],r=result[n.i];if(n.edge)r[plan.size]+=delta;else{r[plan.axis]+=delta;r[plan.size]-=delta}}}
+ return result.map(constrainRect);
+}
+function applyPanelResize(p,index,requested,originals=p.panels.slice(0,panelCount(p)).map(n=>({...n.rect}))){const result=linkedPanelRects(p,index,originals,requested);result.forEach((r,i)=>p.panels[i].rect=r);return result}
+function paintPanelGeometry(p){
+ const box=pageBox(p);for(const el of $('manga-grid').querySelectorAll('.manga-panel')){const n=p.panels[Number(el.dataset.panel)],r=n.rect;Object.assign(el.style,{left:r.x+'%',top:r.y+'%',width:r.w+'%',height:r.h+'%'});const outline=el.querySelector('.shape-outline');outline.setAttribute('viewBox',`0 0 ${r.w/100*box.w} ${r.h/100*box.h}`);outline.querySelector('path').setAttribute('d',KomaPanelShapes.svg(n,r.w/100*box.w,r.h/100*box.h))}
+}
+function editRect(field,value){
+ const p=page(),n=panel(),r=n.rect;if(!Number.isFinite(value))return;const next={...r,[field]:value};
+ if(field==='w'||field==='h'){
+  if(n.locked){const scale=clamp(value/r[field],Math.max(10/r.w,8/r.h),Math.min((100-r.x)/r.w,(100-r.y)/r.h));next.w=r.w*scale;next.h=r.h*scale}
+  else next[field]=clamp(value,field==='w'?10:8,100-r[field==='w'?'x':'y']);
+  applyPanelResize(p,selectedPanel,constrainRect(next));
+ }else n.rect=constrainRect(next);
+}
 function createFreePanel(copy=false){const p=page();if(p.layout!=='freeform'||panelCount(p)>=16)return;change(()=>{const index=panelCount(p),n=copy?JSON.parse(JSON.stringify(panel())):newPanel();n.rect=constrainRect(copy?{...n.rect,x:n.rect.x+3,y:n.rect.y+3}:{x:8+(index%4)*4,y:8+(index%4)*4,w:42,h:32});n.bubbles.forEach(b=>b.id=uid());if(index<p.panels.length&&!(p.panels[index].asset||p.panels[index].bubbles.length))p.panels[index]=n;else if(p.panels.length<21)p.panels.splice(index,0,n);else{toast('Switching to freeform has preserved hidden panels. Select a template to review them.');return}p.freeCount++;selectedPanel=index;selectedBubble=null;setPanelLayer(p,index,true)});toast(copy?'Panel duplicated':'Panel added. Drag it into place.')}
 function setPanelLayer(p,index,front){const order=orderedIndices(p).filter(i=>i!==index);if(front)order.push(index);else order.unshift(index);order.forEach((i,z)=>p.panels[i].z=z)}
 function removeFreePanel(){if(page().layout!=='freeform'||panelCount(page())<=1)return;change(()=>{page().panels.splice(selectedPanel,1);page().freeCount--;while(page().panels.length<6)page().panels.push(newPanel());normalizeSelection()});toast('Panel removed. Undo brings it back.')}
@@ -374,7 +416,7 @@ function renderPaper(){
    if(p.layout!=='freeform'||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
    e.preventDefault();e.stopPropagation();const amount=e.shiftKey?5:p.snap?2:1;
    const dx=e.key==='ArrowLeft'?-amount:e.key==='ArrowRight'?amount:0,dy=e.key==='ArrowUp'?-amount:e.key==='ArrowDown'?amount:0;
-   change(()=>{selectedPanel=i;selectedBubble=null;data.rect=transformRect(data.rect,dx,dy,e.altKey?'se':'move',false,data.locked)});
+   change(()=>{selectedPanel=i;selectedBubble=null;const next=transformRect(data.rect,dx,dy,e.altKey?'se':'move',false,data.locked);if(e.altKey)applyPanelResize(p,i,next);else data.rect=next});
    $('manga-grid').querySelector(`[data-panel="${i}"]`).focus({preventScroll:true});
   };
   el.ondragover=e=>{if(e.dataTransfer.types.includes('application/x-koma-asset')||e.dataTransfer.types.includes('Files')){e.preventDefault();el.classList.add('drop-target')}};
@@ -403,11 +445,11 @@ function startImageGesture(e,i,el){
 function startPanelGesture(e,i,el,handle){
  if(e.button!==0||!touchCanEdit(e))return;if(gestureCancel){gestureCancel();return}e.preventDefault();e.stopPropagation();
  selectedPanel=i;selectedBubble=null;updateSelectedClasses();renderSettings();
- const n=page().panels[i],before=snapshot(),original={...n.rect},bounds=$('manga-grid').getBoundingClientRect(),sx=e.clientX,sy=e.clientY;
- let moved=false;el.setPointerCapture(e.pointerId);el.focus({preventScroll:true});
- const move=ev=>{const dx=(ev.clientX-sx)/bounds.width*100,dy=(ev.clientY-sy)/bounds.height*100;if(!moved&&!passedDragThreshold(e,sx,sy,ev.clientX,ev.clientY))return;moved=true;n.rect=transformRect(original,dx,dy,handle,page().snap,n.locked);Object.assign(el.style,{left:n.rect.x+'%',top:n.rect.y+'%',width:n.rect.w+'%',height:n.rect.h+'%'});syncGeometry()};
- const finish=cancelled=>{if(gestureCancel===cancel)gestureCancel=null;el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',cancel);document.removeEventListener('keydown',key);if(cancelled)n.rect=original;else if(moved)remember(before);renderPaper();renderPages();renderSettings()};
- const up=()=>finish(false),cancel=()=>finish(true),key=ev=>{if(ev.key==='Escape'){ev.preventDefault();finish(true)}};
+ const p=page(),n=p.panels[i],before=snapshot(),originals=p.panels.slice(0,panelCount(p)).map(n=>({...n.rect})),original=originals[i],bounds=$('manga-grid').getBoundingClientRect(),sx=e.clientX,sy=e.clientY;
+ let moved=false,finished=false;el.setPointerCapture(e.pointerId);el.focus({preventScroll:true});
+ const move=ev=>{if(ev.pointerId!==e.pointerId)return;const dx=(ev.clientX-sx)/bounds.width*100,dy=(ev.clientY-sy)/bounds.height*100;if(!moved&&!passedDragThreshold(e,sx,sy,ev.clientX,ev.clientY))return;moved=true;const next=transformRect(original,dx,dy,handle,p.snap,n.locked);if(handle==='move')n.rect=next;else applyPanelResize(p,i,next,originals);paintPanelGeometry(p);syncGeometry()};
+ const finish=cancelled=>{if(finished)return;finished=true;if(gestureCancel===cancel)gestureCancel=null;el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',cancel);document.removeEventListener('keydown',key);try{el.releasePointerCapture(e.pointerId)}catch{}if(cancelled){originals.forEach((r,j)=>p.panels[j].rect={...r});scheduleSave()}else if(moved)remember(before);renderPaper();renderPages();renderSettings()};
+ const up=ev=>{if(!ev||ev.pointerId===e.pointerId)finish(false)},cancel=()=>finish(true),key=ev=>{if(ev.key==='Escape'){ev.preventDefault();finish(true)}};
  gestureCancel=cancel;el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',cancel);document.addEventListener('keydown',key);
 }
 

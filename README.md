@@ -131,3 +131,13 @@ The compact desktop workspace has graphite app controls, a source-image column, 
 Run `node tests/designer.cjs` for shape geometry, project/layout migration, invalid import rejection, independent copies, concave polygons, 5,000 bounded point moves, add/remove controls, Canvas geometry and real point-pointer cancellation/undo checks.
 
 Live browser checks at 390 × 844 verified the Designer sheet and presets, direct custom-corner dragging, single-step undo/redo, adding/removing a point, numeric coordinates, and persistence of custom polygons and ellipses after reopening. Clean reader rendering and the 1800 × 2544 PNG preview were checked. These are browser viewport checks, not physical Android testing.
+
+## Linked panel resizing
+
+In Freeform, resizing a frame automatically adjusts adjoining frames along the shared divider. Rows, columns, T junctions and connected four-panel junctions stay aligned and retain their existing gutters. Adjacency uses the page's panel-spacing setting, with a small tolerance for rounded coordinates. Detached frames and deliberate overlaps stay independent.
+
+Corner dragging, Alt + arrow resizing and Width/Height fields share this behavior. Moving a whole panel or changing its X/Y position remains independent. Corner-point shape edits continue to affect only that shape. A connected resize stops before any frame becomes smaller than 10% page width or 8% page height. The selected frame's proportion lock is preserved; adjoining frames adapt to the divider as they do when applying a layout.
+
+A drag is one Undo step for every affected frame. Escape or a cancelled gesture restores all frame positions. Pictures, shapes, lettering, hidden panels and page order are preserved. Saved projects, reusable layouts, thumbnails and exports use the resulting geometry.
+
+Run `node tests/linked-resize.cjs` for row/column following, junctions, gutter preservation, minimum sizes, proportion locks, independent overlapping/detached panels, 2,880 template-derived corner resizes, numeric fields, content preservation, live SVG updates, cancellation, reversing from limits and single-step undo/redo.
