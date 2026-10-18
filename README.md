@@ -26,7 +26,7 @@ The previous single-book autosave is copied into the library on the first launch
 
 ## Sound effects and rotated lettering
 
-Open **Text → Sound effect** to add outlined manga lettering such as **BAM!**. Edit the words, font, size, alignment, text color, and outline color. **Letter outline** controls stroke thickness from 0 to 8 pixels. The background stays transparent, and the words display in uppercase. The Impact lettering choice uses available system fonts, with local fallbacks; no font download is needed.
+Open **Text → Sound effect** to add outlined manga lettering such as **BAM!**. Edit the words, font, size (up to 96 pixels for sound effects), alignment, text color, and outline color. **Letter outline** controls stroke thickness from 0 to 8 pixels. The background stays transparent, and the words display in uppercase. The Impact lettering choice uses available system fonts, with local fallbacks; no font download is needed.
 
 Use **Text rotation** to tilt sound effects, speech bubbles, thoughts, or captions from −60° to 60°. Drag lettering in **Move** mode to place it. **Duplicate** makes an independent editable copy, including its styling, and offsets it slightly. Undo and redo support these changes. Each panel supports 12 lettering elements in total.
 
