@@ -417,7 +417,7 @@ async function persist(){if(!db){status('Download a project to keep it');return 
 async function flushCurrentBook(){document.activeElement?.blur();if(gestureCancel)gestureCancel();clearTimeout(saveTimer);return persist()}
 function saveOnHide(){clearTimeout(saveTimer);if(!db)return;latestSave.set(activeBookId,++saveSequence);const copy=JSON.parse(snapshot());KomaBookStore.save(db,{id:activeBookId,book:copy,summary:bookSummary(copy,coverCache.get(activeBookId)?.cover||null)}).catch(()=>{})}
 function useBook(next,id){if(gestureCancel)gestureCancel();book=next;activeBookId=id;activePage=0;selectedPanel=0;selectedBubble=null;undoStack=[];redoStack=[];zoom='fit';closeDrawers();setTouchTool('edit');render();fitPaper();status('Saved on this device')}
-async function refreshBooks(){libraryCards=await KomaBookStore.list(db);renderBooks()}
+async function refreshBooks(){libraryCards=await KomaBookStore.list(db);$('library-status').textContent=libraryCards.length+' saved '+(libraryCards.length===1?'book':'books');renderBooks()}
 function setLibraryBusy(value){libraryBusy=value;for(const id of ['new-book','import-book'])$(id).disabled=value||!db;renderBooks()}
 async function openBooks(){closeDrawers();$('books-dialog').showModal();$('book-search').value='';$('library-status').textContent=db?'Saving your book…':'Device storage is unavailable. Use Save project for a downloadable copy.';setLibraryBusy(true);try{if(!db)return;if(!await flushCurrentBook()){$('library-status').textContent='Could not save. Download a project copy before switching books.';return}await refreshBooks();$('library-status').textContent=libraryCards.length+' saved '+(libraryCards.length===1?'book':'books')}catch{$('library-status').textContent='Could not read your books. Your open book is still available.'}finally{setLibraryBusy(false)}}
 function renderBooks(){const grid=$('book-grid');grid.replaceChildren();const search=$('book-search').value.trim().toLowerCase(),cards=libraryCards.filter(c=>c.title.toLowerCase().includes(search));if(!cards.length){const empty=document.createElement('div');empty.className='book-empty';empty.textContent=libraryBusy?'Loading your books…':search?'No books match your search.':'Your books will appear here.';grid.append(empty)}for(const item of cards){const card=document.createElement('article');card.className='book-card';const cover=document.createElement('button');cover.className='book-cover';cover.disabled=libraryBusy;cover.setAttribute('aria-label','Open '+item.title);if(item.cover){const img=new Image();img.src=item.cover;img.alt='';cover.append(img)}else cover.textContent='Open book';cover.onclick=()=>runLibraryAction(()=>openSavedBook(item.id));const title=document.createElement('h3');title.textContent=item.title;const meta=document.createElement('small');meta.textContent=`${item.pageCount} ${item.pageCount===1?'page':'pages'} · ${item.id===activeBookId?'Open now':new Date(item.updatedAt).toLocaleDateString()}`;const actions=document.createElement('div');actions.className='book-actions';for(const [label,action] of [['Rename',()=>renameBook(item)],['Copy',()=>copyBook(item)],['Delete',()=>deleteBook(item)]]){const button=document.createElement('button');button.textContent=label;button.disabled=libraryBusy||(label==='Delete'&&item.id===activeBookId);if(label==='Delete'){button.className='danger';if(item.id===activeBookId)button.title='Open another book before deleting this one.'}button.onclick=()=>runLibraryAction(action);actions.append(button)}card.append(cover,title,meta,actions);grid.append(card)}}
@@ -558,7 +558,30 @@ function setup(){
  document.addEventListener('dragover',e=>{if(e.dataTransfer.types.includes('Files'))e.preventDefault()});document.addEventListener('drop',e=>{if(e.dataTransfer.files.length){e.preventDefault();uploadFiles(e.dataTransfer.files)}});
  window.addEventListener('pagehide',saveOnHide);
 }
-async function init(){book=initialBook();setup();render();fitPaper();document.querySelector('.app').inert=true;try{db=await KomaBookStore.open();const session=await KomaBookStore.session(db);libraryCards=await KomaBookStore.list(db);let active=session.activeId;if(session.legacy){const raw=JSON.stringify(session.legacy),bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)),fingerprint=Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,'0')).join('');if(fingerprint!==session.fingerprint){const recovered=validateBook(JSON.parse(raw)),id=uid();if(libraryCards.length)recovered.title=(recovered.title+' (recovered)').slice(0,70);await storageWrite(recovered,id,{activate:!libraryCards.length,legacyFingerprint:fingerprint});if(!libraryCards.length)active=id;libraryCards=await KomaBookStore.list(db)}}let restored=null;if(active){try{const saved=await KomaBookStore.load(db,active);if(saved)restored=validateBook(saved)}catch{}}if(!restored&&libraryCards.length){active=libraryCards[0].id;restored=validateBook(await KomaBookStore.load(db,active));await KomaBookStore.activate(db,active)}if(restored){useBook(restored,active)}else{await storageWrite(book,activeBookId,{activate:true});status('Saved on this device')}}catch{status('Download a project to keep it');toast('Device autosave is unavailable. Use Save project to keep your work.')}finally{document.querySelector('.app').inert=false;render();fitPaper()}}
+async function init(){
+ book=initialBook();setup();render();fitPaper();document.querySelector('.app').inert=true;
+ try{
+  db=await KomaBookStore.open();const session=await KomaBookStore.session(db);libraryCards=await KomaBookStore.list(db);let active=session.activeId,recoveryWarning=false;
+  if(session.legacy){
+   try{
+    const raw=JSON.stringify(session.legacy),bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)),fingerprint=Array.from(new Uint8Array(bytes),b=>b.toString(16).padStart(2,'0')).join('');
+    if(fingerprint!==session.fingerprint){
+     const recovered=validateBook(JSON.parse(raw)),id=uid();
+     if(libraryCards.length)recovered.title=(recovered.title+' (recovered)').slice(0,70);
+     else{book=recovered;activeBookId=id}
+     await storageWrite(recovered,id,{activate:!libraryCards.length,legacyFingerprint:fingerprint});
+     if(!libraryCards.length)active=id;libraryCards=await KomaBookStore.list(db);
+    }
+   }catch{recoveryWarning=true;if(!libraryCards.length)throw new Error('Your previous book could not be added to the library.')}
+  }
+  let restored=null;
+  if(active){try{const saved=await KomaBookStore.load(db,active);if(saved)restored=validateBook(saved)}catch{}}
+  if(!restored&&libraryCards.length){active=libraryCards[0].id;restored=validateBook(await KomaBookStore.load(db,active));await KomaBookStore.activate(db,active)}
+  if(restored)useBook(restored,active);else{await storageWrite(book,activeBookId,{activate:true});status('Saved on this device')}
+  if(recoveryWarning)toast('Your library is open. A previous autosave could not be recovered; its original record was kept.');
+ }catch{status('Download a project to keep it');toast('Device autosave is unavailable. Use Save project to keep your work.')}
+ finally{document.querySelector('.app').inert=false;render();fitPaper()}
+}
 window.komaBeforeUpdate=async()=>{if(!db){toast('Save a project copy before updating; device autosave is unavailable.');return false}return flushCurrentBook()};
 
 init();
