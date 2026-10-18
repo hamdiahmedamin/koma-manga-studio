@@ -207,7 +207,7 @@ const KomaPanelShapes=(()=>{
  return {presets,points,validPoints,valid,clip,svg,canvas,move};
 })();
 let designerTab='panel',selectedShapePoint=0;
-function selectDesignerTab(tab){designerTab=tab;document.querySelectorAll('[data-studio-tab]').forEach(b=>{const active=b.dataset.studioTab===tab;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});document.querySelectorAll('[data-studio-pane]').forEach(p=>p.hidden=p.dataset.studioPane!==tab);const titles={layout:'Page layout',panel:'Panel Designer',picture:'Picture adjustments',text:'Dialogue & lettering',book:'Book & app'};$('designer-title').textContent=titles[tab];$('settings-sheet-title').textContent=titles[tab]}
+function selectDesignerTab(tab){if(designerTab!==tab)$('inspector').scrollTop=0;designerTab=tab;document.querySelectorAll('[data-studio-tab]').forEach(b=>{const active=b.dataset.studioTab===tab;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1});document.querySelectorAll('[data-studio-pane]').forEach(p=>p.hidden=p.dataset.studioPane!==tab);const titles={layout:'Page layout',panel:'Panel Designer',picture:'Picture adjustments',text:'Dialogue & lettering',book:'Book & app'};$('designer-title').textContent=titles[tab];$('settings-sheet-title').textContent=titles[tab]}
 function renderDesignerSettings(){
  const n=panel(),ps=KomaPanelShapes.points(n);selectedShapePoint=clamp(selectedShapePoint,0,ps.length-1);
  $('designer-context').textContent=`PAGE ${String(activePage+1).padStart(2,'0')} / PANEL ${String(selectedPanel+1).padStart(2,'0')}`;
@@ -338,7 +338,7 @@ function renderPaper(){
   el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',`Select panel ${i+1}`);el.setAttribute('aria-pressed',i===selectedPanel?'true':'false');
   if(p.layout==='freeform')el.setAttribute('aria-description','Drag to move. Arrow keys move; Shift moves faster. Alt plus arrows resizes.');
   const surface=document.createElement('div');surface.className='panel-surface';surface.style.background=data.fill;surface.style.clipPath=KomaPanelShapes.clip(data,unit(data.radius));
-  const content=document.createElement('div');content.className='panel-content';content.style.inset=unit(data.borderWidth);content.style.borderRadius=unit(Math.max(0,data.radius-data.borderWidth));surface.append(content);el.append(surface);
+  const content=document.createElement('div');content.className='panel-content';content.style.inset=unit(data.borderWidth);content.style.borderRadius=unit(Math.max(0,(data.shape==='rect'?data.radius:0)-data.borderWidth));surface.append(content);el.append(surface);
   const outline=document.createElementNS('http://www.w3.org/2000/svg','svg');outline.classList.add('shape-outline');outline.setAttribute('viewBox',`0 0 ${r.w} ${r.h}`);outline.setAttribute('preserveAspectRatio','none');outline.setAttribute('aria-hidden','true');outline.style.clipPath=surface.style.clipPath;
   const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',KomaPanelShapes.svg(data,r.w,r.h));path.setAttribute('fill','none');path.setAttribute('stroke',data.borderColor);path.setAttribute('stroke-width',String(data.borderWidth*2));path.setAttribute('stroke-linejoin','round');outline.append(path);el.append(outline);
   const asset=book.assets.find(a=>a.id===data.asset);
@@ -641,7 +641,7 @@ async function renderCanvas(p,index,source,outputScale=3){
   const r=rects[i],n=p.panels[i],asset=source.assets.find(a=>a.id===n.asset),bw=n.borderWidth;
   const inner={x:r.x+bw,y:r.y+bw,w:Math.max(1,r.w-bw*2),h:Math.max(1,r.h-bw*2)};
   ctx.save();KomaPanelShapes.canvas(ctx,n,r);ctx.clip();ctx.fillStyle=n.fill;ctx.fillRect(r.x,r.y,r.w,r.h);
-  ctx.save();roundedPath(ctx,inner.x,inner.y,inner.w,inner.h,Math.max(0,n.radius-bw));ctx.clip();
+  ctx.save();roundedPath(ctx,inner.x,inner.y,inner.w,inner.h,Math.max(0,(n.shape==='rect'?n.radius:0)-bw));ctx.clip();
   if(asset){
    const img=await loadImage(asset.src),scale=(n.fit==='contain'?Math.min:Math.max)(inner.w/img.naturalWidth,inner.h/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;
    const ix=inner.x+(inner.w-iw)*n.x/100,iy=inner.y+(inner.h-ih)*n.y/100,cx=inner.x+inner.w/2,cy=inner.y+inner.h/2;

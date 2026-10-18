@@ -129,3 +129,5 @@ The compact desktop workspace has graphite app controls, a source-image column, 
 - Custom shapes and inside borders carry through project backups, reusable layouts, new/duplicated pages, book covers, page thumbnails, reader, PNG, CBZ and print exports. Existing books and saved layouts migrate to rectangles.
 
 Run `node tests/designer.cjs` for shape geometry, project/layout migration, invalid import rejection, independent copies, concave polygons, 5,000 bounded point moves, add/remove controls, Canvas geometry and real point-pointer cancellation/undo checks.
+
+Live browser checks at 390 × 844 verified the Designer sheet and presets, direct custom-corner dragging, single-step undo/redo, adding/removing a point, numeric coordinates, and persistence of custom polygons and ellipses after reopening. Clean reader rendering and the 1800 × 2544 PNG preview were checked. These are browser viewport checks, not physical Android testing.
