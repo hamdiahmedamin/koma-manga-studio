@@ -1,7 +1,7 @@
 'use strict';
 
 // package_pwa.py changes this version whenever an app-shell file changes.
-const VERSION = '4903963e4e5c6c4f';
+const VERSION = 'cb10886d8b053b57';
 const PREFIX = 'koma-shell:' + self.registration.scope + ':';
 const CACHE = PREFIX + VERSION;
 const FILES = [

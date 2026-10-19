@@ -463,7 +463,7 @@ let book,activePage=0,selectedPanel=0,selectedBubble=null,undoStack=[],redoStack
 const page=()=>book.pages[activePage];
 const panel=()=>page().panels[selectedPanel];
 const bubble=()=>panel().bubbles.find(b=>b.id===selectedBubble);
-function dismissToast(){clearTimeout(toastTimer);const el=$('toast');if(el.contains(document.activeElement)&&toastReturnFocus?.isConnected)toastReturnFocus.focus({preventScroll:true});el.classList.remove('visible');el.inert=true}
+function dismissToast(){clearTimeout(toastTimer);const el=$('toast'),focused=el.contains(document.activeElement);el.classList.remove('visible');if(focused&&toastReturnFocus?.isConnected)toastReturnFocus.focus({preventScroll:true});el.inert=true}
 function pauseToast(){clearTimeout(toastTimer)}
 function resumeToast(){pauseToast();const el=$('toast');if(el.classList.contains('visible')&&!el.matches(':hover')&&!el.contains(document.activeElement))toastTimer=setTimeout(dismissToast,toastDuration)}
 function toast(message){const el=$('toast');if(!el.contains(document.activeElement))toastReturnFocus=document.activeElement;el.inert=false;$('toast-message').textContent=message;toastDuration=Math.min(14000,Math.max(6000,String(message).length*65));el.classList.add('visible');resumeToast()}
