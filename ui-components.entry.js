@@ -1,6 +1,8 @@
 // Only the free controls Koma uses are bundled. No remote loader or icon kit.
 import '@awesome.me/webawesome/dist/components/button/button.js';
 import '@awesome.me/webawesome/dist/components/details/details.js';
+import '@awesome.me/webawesome/dist/components/select/select.js';
+import '@awesome.me/webawesome/dist/components/option/option.js';
 
 // Koma keeps labels and toggle state on the host for its existing handlers.
 // Forward those attributes to the real focusable control inside Web Awesome.

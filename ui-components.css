@@ -80,3 +80,51 @@ wa-details.crop-presets-settings > [slot="summary"] span { margin-left: auto; fl
   wa-button { transition: none; }
   wa-details { --show-duration: 0ms; --hide-duration: 0ms; }
 }
+
+/* Styled listboxes use Web Awesome's top-layer popup, including inside dialogs. */
+wa-select {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ink);
+  font: inherit;
+  --wa-form-control-height: 36px;
+}
+wa-select::part(combobox) {
+  min-height: 36px;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0 9px;
+  gap: 6px;
+  box-shadow: none;
+}
+wa-select::part(display-input) { font: inherit; font-size: 12px; padding: 0; min-width: 0; color: var(--ink); }
+/* Existing field labels remain visible. This internal label names the combobox. */
+wa-select::part(form-control-label) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; margin: -1px; }
+wa-select::part(form-control) { gap: 0; }
+wa-select::part(listbox) { background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 4px; box-shadow: 0 6px 24px oklch(25% .025 125 / .16); }
+wa-select::part(expand-icon) { color: var(--muted); font-size: 11px; }
+wa-select[disabled] { opacity: .5; }
+wa-option { font-size: 12px; color: var(--ink); --wa-color-brand-fill-normal: var(--accent); --wa-color-brand-on-normal: var(--ink); }
+wa-option::part(base) { padding: 9px 10px; border-radius: 3px; }
+wa-select.panel-picker { display: inline-block; width: 108px; flex-shrink: 0; }
+wa-select.panel-picker::part(combobox) { min-height: 30px; }
+.character-toolbar wa-select { flex: 1; }
+.custom-layout-apply wa-select { flex: 1; }
+.reader-options wa-select { width: 230px; }
+@media(max-width:760px) {
+  wa-select { --wa-form-control-height: 44px; }
+  wa-select::part(combobox), wa-select.panel-picker::part(combobox) { min-height: 44px; }
+  wa-select::part(display-input) { font-size: 16px; }
+  wa-select.panel-picker { width: 120px; max-width: 120px; }
+  wa-select.panel-picker::part(display-input) { font-size: 13px; }
+  wa-option { font-size: 14px; }
+  wa-option::part(base) { min-height: 44px; padding: 12px 10px; }
+  .reader-options wa-select { width: 55vw; }
+}
