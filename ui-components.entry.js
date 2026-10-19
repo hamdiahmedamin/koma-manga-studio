@@ -31,6 +31,7 @@ function watchButton(host) {
     if (!button) return;
     for (const name of buttonAria) {
       const value = host.getAttribute(name);
+      if (value === null && host.matches('[slot="trigger"]') && host.closest('wa-dropdown') && ['aria-expanded', 'aria-controls'].includes(name)) continue;
       if (value === null) button.removeAttribute(name);
       else button.setAttribute(name, value);
     }
@@ -38,15 +39,33 @@ function watchButton(host) {
   new MutationObserver(sync).observe(host, {attributes: true, attributeFilter: buttonAria});
   sync();
 }
-function connectButtons(root) {
+// Names belong on the real tab list/menu, inside the component's shadow root.
+function watchNamedSurface(host) {
+  if (watched.has(host)) return;
+  watched.add(host);
+  const sync = async () => {
+    await host.updateComplete;
+    const selector = host.localName === 'wa-tab-group' ? '[role="tablist"]' : '[part~="menu"]';
+    const surface = host.shadowRoot?.querySelector(selector);
+    if (!surface) return;
+    const label = host.getAttribute('aria-label');
+    if (label) surface.setAttribute('aria-label', label);
+    else surface.removeAttribute('aria-label');
+  };
+  new MutationObserver(sync).observe(host, {attributes: true, attributeFilter: ['aria-label']});
+  sync();
+}
+function connectControls(root) {
   if (root.matches?.('wa-button')) watchButton(root);
   root.querySelectorAll?.('wa-button').forEach(watchButton);
+  if (root.matches?.('wa-tab-group,wa-dropdown')) watchNamedSurface(root);
+  root.querySelectorAll?.('wa-tab-group,wa-dropdown').forEach(watchNamedSurface);
 }
 document.addEventListener('DOMContentLoaded', () => {
-  connectButtons(document);
+  connectControls(document);
   new MutationObserver(records => {
     for (const record of records) for (const node of record.addedNodes) {
-      if (node.nodeType === 1) connectButtons(node);
+      if (node.nodeType === 1) connectControls(node);
     }
   }).observe(document.body, {childList: true, subtree: true});
 }, {once: true});
