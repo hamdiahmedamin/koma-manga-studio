@@ -196,3 +196,11 @@ Tap thumbnails to select several pages, or use Select all / Clear. Shift-click e
 Each action saves automatically and is one Undo step. Undo/Redo are available inside the organizer, including Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z and Ctrl/Cmd+Y. Moving pages and undoing a move retain the editor's current page by identity when it still exists. Closing returns focus to the page controls. The resulting page order carries through project backups, reading mode and exports.
 
 Run `node tests/page-organizer.cjs` for 5,116 exhaustive group movements; source/order preservation; independent copies and limits; actual action handlers and Undo/Redo; multi-page removal, cancellation and book-switch guards; asset/character preservation; real pointer drag handlers, jitter/foreign-pointer rejection, touch scrolling, Escape/lost-capture cancellation; and range selection. Thumbnails and page duplication share the same helpers as the existing page strip controls.
+
+## Adjustable speech tails
+
+Select a speech bubble and open **Text**. With **Show speech tail** enabled, choose its side and adjust the attachment position, length and slant. The tail rotates with the bubble. **Reset tail** restores the default bottom tail. Each slider gesture is one Undo step.
+
+New speech bubbles use a continuous outline shared by the editor and all rendered exports. Existing bubbles retain their original appearance until a tail setting is edited. Tail settings survive project backups, duplication and autosave. The panel warning includes the tail tip; keep it within the panel to avoid clipping. Thought bubbles, captions and sound effects retain their existing controls.
+
+Run `node tests/speech-tails.cjs` for 2,400 combinations of sides, sizes, positions, lengths and slants; non-crossing outlines; legacy preservation; actual controls and Undo/Redo; independent copies; project validation; and shared editor/export geometry.
