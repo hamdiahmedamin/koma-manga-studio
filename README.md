@@ -232,3 +232,11 @@ Open **Image settings → Align picture** and choose one of nine positions, from
 Presets use exact edges even when grid snapping is on. Picture offsets now extend to ±200%, allowing precise edge alignment at the maximum 500% zoom. Subsequent dragging, sliders and arrow keys use the same offset range. Alignment saves as ordinary picture settings, appears in every rendered output, and is one Undo step.
 
 Run `node tests/picture-alignment.cjs` for 6,480 combinations of fit, image/frame proportions, zoom, flips and anchor positions; actual preset handlers; independent/shared crops; content preservation; active/disabled controls; project round trips; offset limits; and Undo/Redo.
+
+## Copy and paste picture crops
+
+Open **Image settings → Copy crop**, select a different picture, and choose **Paste crop**. This copies fit, zoom, focal position, offsets, rotation and flips. It keeps the destination picture, colors, opacity, panel shape and lettering. The copied framing uses the target panel's proportions; joined pictures update all their pieces together. Pasting bypasses grid rounding to preserve the copied values exactly.
+
+You can reuse the copied crop across pages and books until Koma reloads. The internal clipboard contains only numeric crop settings, not picture data, and is separate from the system clipboard and project backups. Changing the source after copying does not change the saved crop. Copying does not add an Undo step. Pasting is one Undo step; an already-matching crop makes no extra history entry. Empty panels cannot copy or paste.
+
+Run `node tests/crop-copy.cjs` for actual Copy/Paste handlers, exact field selection, source/content/color preservation, shared targets, independent crops, Undo/Redo, matching-crop handling, cross-page/book reuse, empty panels and clipboard isolation.
