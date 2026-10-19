@@ -253,6 +253,6 @@ Run `node tests/crop-presets.cjs` for actual preset actions, content and shared-
 
 ### UI components
 
-Koma uses the free, MIT-licensed Web Awesome Core 3.14.0 for action buttons, styled dropdown listboxes, text and number inputs, textareas, and collapsible settings. The manga canvas, touch tools, and book format remain Koma's own. Components and theme are bundled locally, cached with the offline app, and require no account, CDN, or paid kit.
+Koma uses the free, MIT-licensed Web Awesome Core 3.14.0 for action buttons, styled dropdown listboxes, text and number inputs, textareas, sliders, and collapsible settings. The manga canvas, touch tools, and book format remain Koma's own. Components and theme are bundled locally, cached with the offline app, and require no account, CDN, or paid kit.
 
 To rebuild the checked-in UI bundle after changing `ui-components.entry.js`, run `npm ci` then `npm run build:ui`. `ui-components.css` adapts the components to Koma's colors, density, and mobile touch targets. The license is included in `vendor/WEB-AWESOME-LICENSE.md`. Run `python3 package_pwa.py` after any public asset changes.
