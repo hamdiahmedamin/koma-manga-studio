@@ -172,3 +172,15 @@ The PDF contains A5 portrait pages in the book's existing page order, with a rig
 The PDF writer runs locally without external libraries. Page canvases are released after encoding. Cancellation or rendering/encoding failures close the progress dialog and never offer a partial file. PDF and CBZ share the same rendering/progress/cancellation flow and file-ready dialog.
 
 Run `node tests/pdf-export.cjs` for exact byte offsets, binary streams, 1/2/40-page output, A5 dimensions, Unicode titles, reading directions, invalid image rejection, page limits, quality settings, sequential rendering, cancellation, error cleanup, canvas release and CBZ/ready-dialog regression checks. Independent Poppler checks and rendered page inspection validate a PDF made with the actual manga page renderer.
+
+## Character references
+
+Open **Pictures → Characters** and choose **+ New**. Each book can keep up to 30 characters, with a name, role, appearance/story notes, and up to six reference pictures per character. Select a thumbnail to inspect it beside your page. Characters stay available while moving between pages.
+
+**Choose pictures** links pictures already in the library. **Upload references** uses the same local image processing and 60-picture library limit as normal uploads, then links the new pictures to the character. Unlink removes only the reference association. A picture used by a character cannot be removed from the library until it is unlinked. Reference pictures can also be placed in panels through the Pictures tab.
+
+Names, roles, notes and references autosave with the book. They carry through editable project backups and book copies; older books open with an empty character library. Character notes and unused references are not added to the reader or rendered book exports. Removing a character leaves its pictures in the library and supports Undo. Uploading a batch of references is a single Undo step. Field edits form one Undo step when leaving the field.
+
+Uploads capture their destination book and character. If that destination changes or is removed before processing finishes, the result is discarded with a retry message. Other upload failures restore the controls and preserve existing content.
+
+Run `node tests/characters.cjs` for legacy migration, Unicode notes, project round trips, malformed/orphan/duplicate references, independent copies, creation and field Undo/Redo, character/reference limits, asset protection, unlink/removal recovery, unchanged manga pages, reference upload batches, book-switch races and failed-upload cleanup.
