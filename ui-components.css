@@ -128,3 +128,38 @@ wa-select.panel-picker::part(combobox) { min-height: 30px; }
   wa-option { min-height: 44px; padding: 12px 10px; }
   .reader-options wa-select { width: 55vw; }
 }
+
+/* Text, number and long-form fields share the same paper surface as selects. */
+wa-input, wa-textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--ink);
+  font: inherit;
+}
+wa-input::part(base), wa-textarea::part(base) {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  box-shadow: none;
+}
+wa-input::part(base) { min-height: 36px; height: auto; }
+wa-input::part(input), wa-textarea::part(textarea) { color: var(--ink); font: inherit; font-size: 12px; padding: 8px 10px; }
+wa-input::part(form-control-label), wa-textarea::part(form-control-label) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; margin: -1px; }
+wa-input::part(form-control), wa-textarea::part(form-control) { gap: 0; }
+wa-textarea::part(textarea) { line-height: 1.6; min-height: 90px; resize: vertical; }
+wa-input[type=number]::part(input) { font-variant-numeric: tabular-nums; }
+wa-input.project-name::part(base) { min-height: 28px; border: 0; border-radius: 0; background: transparent; }
+wa-input.project-name::part(input) { padding: 0; font-size: 21px; font-weight: 600; letter-spacing: -.5px; }
+.book-toolbar wa-input, .custom-layout-toolbar wa-input { flex: 1; min-width: 120px; width: auto; }
+@media(max-width:760px) {
+  wa-input::part(base) { min-height: 44px; }
+  wa-input::part(input), wa-textarea::part(textarea) { font-size: 16px; padding: 10px; }
+  wa-textarea::part(textarea) { min-height: 120px; }
+  wa-input.project-name::part(base) { min-height: 27px; }
+  wa-input.project-name::part(input) { font-size: 17px; padding: 0; }
+}
