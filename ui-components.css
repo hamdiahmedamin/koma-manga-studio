@@ -310,3 +310,7 @@ wa-progress-bar.archive-progress{display:block;width:100%;height:auto;--track-he
 }
 @media(prefers-reduced-motion:reduce){.confirmation-dialog{--show-duration:0ms;--hide-duration:0ms}}
 @media print{wa-dialog,#toast{display:none!important}}
+
+/* Number-field columns must shrink with narrow phone drawers. */
+.inspector .number-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.inspector .number-grid label{min-width:0}
