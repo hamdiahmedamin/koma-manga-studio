@@ -112,7 +112,7 @@ wa-select::part(listbox) { background: var(--paper); color: var(--ink); border: 
 wa-select::part(expand-icon) { color: var(--muted); font-size: 11px; }
 wa-select[disabled] { opacity: .5; }
 wa-option { font-size: 12px; color: var(--ink); --wa-color-brand-fill-normal: var(--accent); --wa-color-brand-on-normal: var(--ink); }
-wa-option::part(base) { padding: 9px 10px; border-radius: 3px; }
+wa-option { padding: 9px 10px; border-radius: 3px; }
 wa-select.panel-picker { display: inline-block; width: 108px; flex-shrink: 0; }
 wa-select.panel-picker::part(combobox) { min-height: 30px; }
 .character-toolbar wa-select { flex: 1; }
@@ -125,6 +125,6 @@ wa-select.panel-picker::part(combobox) { min-height: 30px; }
   wa-select.panel-picker { width: 120px; max-width: 120px; }
   wa-select.panel-picker::part(display-input) { font-size: 13px; }
   wa-option { font-size: 14px; }
-  wa-option::part(base) { min-height: 44px; padding: 12px 10px; }
+  wa-option { min-height: 44px; padding: 12px 10px; }
   .reader-options wa-select { width: 55vw; }
 }
