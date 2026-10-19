@@ -184,3 +184,15 @@ Names, roles, notes and references autosave with the book. They carry through ed
 Uploads capture their destination book and character. If that destination changes or is removed before processing finishes, the result is discarded with a retry message. Other upload failures restore the controls and preserve existing content.
 
 Run `node tests/characters.cjs` for legacy migration, Unicode notes, project round trips, malformed/orphan/duplicate references, independent copies, creation and field Undo/Redo, character/reference limits, asset protection, unlink/removal recovery, unchanged manga pages, reference upload batches, book-switch races and failed-upload cleanup.
+
+## Page organizer
+
+Open **Pages** beside the page strip, or **Designer → Book → Organize pages**. On phones, Pages is in the strip's three-dot menu. The organizer shows layout thumbnails and opens with the current page selected.
+
+Tap thumbnails to select several pages, or use Select all / Clear. Shift-click extends a selection range on desktop. **Earlier/Later** move the selected group one position while preserving order; they stop when the group reaches the book boundary. **First/Last** gather the selection at the beginning/end. Desktop users can also drag a selected page onto another page to insert the selected group before it. Dragging an unselected page moves only that page.
+
+**Duplicate** inserts an independent copy after each original and selects the copies. Page and lettering IDs are regenerated; pictures, custom shapes, hidden panels, adjustments and dialogue remain intact. The entire batch is refused if it would exceed 40 pages. **Remove** asks for confirmation, retains at least one page, and leaves pictures and character references in the book. **Edit page** opens a single selected page in the editor.
+
+Each action saves automatically and is one Undo step. Undo/Redo are available inside the organizer, including Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z and Ctrl/Cmd+Y. Moving pages and undoing a move retain the editor's current page by identity when it still exists. Closing returns focus to the page controls. The resulting page order carries through project backups, reading mode and exports.
+
+Run `node tests/page-organizer.cjs` for 5,116 exhaustive group movements; source/order preservation; independent copies and limits; actual action handlers and Undo/Redo; multi-page removal, cancellation and book-switch guards; asset/character preservation; drag handlers; and range selection. Thumbnails and page duplication share the same helpers as the existing page strip controls.
