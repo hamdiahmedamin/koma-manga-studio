@@ -10,6 +10,10 @@ import '@awesome.me/webawesome/dist/components/switch/switch.js';
 import '@awesome.me/webawesome/dist/components/checkbox/checkbox.js';
 import '@awesome.me/webawesome/dist/components/color-picker/color-picker.js';
 
+import '@awesome.me/webawesome/dist/components/dropdown/dropdown.js';
+import '@awesome.me/webawesome/dist/components/dropdown-item/dropdown-item.js';
+import '@awesome.me/webawesome/dist/components/tab-group/tab-group.js';
+
 // Koma keeps labels and toggle state on the host for its existing handlers.
 // Forward those attributes to the real focusable control inside Web Awesome.
 const buttonAria = ['aria-label', 'aria-pressed', 'aria-expanded', 'aria-controls', 'aria-describedby'];

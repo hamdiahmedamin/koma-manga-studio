@@ -240,3 +240,24 @@ wa-color-picker::part(swatch) { width: 100%; min-height: 32px; border-radius: 4p
   wa-color-picker::part(swatch) { min-height: 44px; }
   wa-color-picker::part(input) { font-size: 16px; }
 }
+
+/* Tool tabs keep the canvas context while the inspector scrolls. */
+.studio-tab-group{display:block;min-width:0;--indicator-color:var(--accent-dark);--track-color:var(--line);--track-width:2px}
+.studio-tab-group::part(nav){position:sticky;top:0;z-index:12;margin:0 -16px 16px;padding:0 12px;background:oklch(97% .007 125)}
+.studio-tab-group::part(tabs){width:100%;justify-content:stretch}
+.studio-tab-group wa-tab{flex:1;min-width:0}
+.studio-tab-group wa-tab::part(tab){min-height:40px;padding:0 5px;font-family:inherit;font-size:11px;font-weight:500;color:var(--muted);justify-content:center}
+.studio-tab-group wa-tab[active]::part(tab){color:var(--ink);font-weight:700;background:oklch(94% .018 125)}
+.studio-tab-group wa-tab-panel{--padding:0;min-width:0}
+/* The dropdown owns placement, focus, Escape and outside-click dismissal. */
+wa-dropdown.export-menu::part(menu){width:min(280px,calc(100vw - 24px));padding:6px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:9px;box-shadow:0 9px 30px #232d171a}
+.export-menu wa-dropdown-item{font-family:inherit;font-size:12px;--wa-color-surface-default:var(--paper);--wa-color-surface-raised:var(--paper)}
+.export-menu wa-dropdown-item::part(label){font-weight:600}
+.export-menu wa-dropdown-item::part(details){font-size:10px;line-height:1.5;color:var(--muted);white-space:normal}
+.export-menu wa-dropdown-item .icon{width:17px;height:17px}
+@media(max-width:760px){
+ .studio-tab-group::part(nav){top:56px}
+ .studio-tab-group wa-tab::part(tab){min-height:46px;font-size:13px}
+ .export-menu wa-dropdown-item{min-height:58px;font-size:13px}
+ .export-menu wa-dropdown-item::part(details){font-size:11px}
+}
