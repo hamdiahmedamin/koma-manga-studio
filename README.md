@@ -162,3 +162,13 @@ Open **Pictures → Auto layout**, or **Designer → Layout → Arrange pictures
 A complete batch is one Undo step. Generation respects the 40-page book limit and never creates a partial batch when it will not fit. Switching books clears the temporary selection.
 
 Run `node tests/auto-layout.cjs` for 144 combinations of batching, ordering, reading direction and picture fit; exact final-page counts; independent page/frame state; metadata/content preservation; project validation; actual creation and single-step Undo/Redo; missing assets; book switching; and atomic capacity checks.
+
+## Direct PDF download
+
+Choose **Export → Download PDF**. Koma renders the complete book, then offers **Save PDF** and, on devices supporting file sharing, **Share PDF**. No print dialog or network service is needed. A progress dialog supports Cancel between pages. **Print book** remains available separately.
+
+The PDF contains A5 portrait pages in the book's existing page order, with a right-to-left viewer preference for manga books. Each page uses the same renderer as PNG/CBZ, including custom shapes, layering, lettering, image adjustments, paper and page numbers. Artwork is rasterized at 1800 × 2544 and encoded as high-quality JPEG; text in the PDF is part of the page image, not selectable text. An editable project backup is still needed for future changes. PDF titles preserve Unicode characters. Pages are fitted proportionally and any tiny edge bands match the paper color.
+
+The PDF writer runs locally without external libraries. Page canvases are released after encoding. Cancellation or rendering/encoding failures close the progress dialog and never offer a partial file. PDF and CBZ share the same rendering/progress/cancellation flow and file-ready dialog.
+
+Run `node tests/pdf-export.cjs` for exact byte offsets, binary streams, 1/2/40-page output, A5 dimensions, Unicode titles, reading directions, invalid image rejection, page limits, quality settings, sequential rendering, cancellation, error cleanup, canvas release and CBZ/ready-dialog regression checks. Independent Poppler checks and rendered page inspection validate a PDF made with the actual manga page renderer.
