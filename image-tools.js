@@ -24,5 +24,12 @@ globalThis.KomaImageTools = (() => {
     const y = (current.y - size.height / 2) - ratio * (initial.y - size.height / 2 - start.panY / 100 * size.height);
     return {zoom: round(zoom), panX: round(clamp(x / size.width * 100, -100, 100)), panY: round(clamp(y / size.height * 100, -100, 100))};
   }
-  return {css, pan, pinch};
+  function snapPosition(patch, enabled) {
+    const result = {...patch};
+    if (enabled) for (const key of ['panX', 'panY']) {
+      if (result[key] !== undefined) result[key] = clamp(Math.round(result[key] / 10) * 10, -100, 100) || 0;
+    }
+    return result;
+  }
+  return {css, pan, pinch, snapPosition};
 })();

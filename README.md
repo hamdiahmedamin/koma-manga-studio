@@ -216,3 +216,11 @@ The shared image fits the combined visible frames and stays aligned when frames 
 Spans and crops autosave and survive editable project backups. The same viewport is used in the editor, reader, covers, PNG, PDF and CBZ. Old projects retain their existing picture settings. Conflicting span settings in imported projects are rejected.
 
 Run `node tests/picture-spans.cjs` for 45 template/spacing combinations, group geometry, source-content preservation, actual controls and gesture handlers, jitter and foreign-pointer rejection, pinch limits, cancellation and Undo/Redo, project validation, independent page copies, and shared Canvas export coordinates.
+
+## Fit and grid snapping while cropping
+
+In **Crop** mode, **Fit** centers the whole picture and **Fill** covers its frame. Both reset zoom, position, offsets and rotation while retaining flips, color adjustments, panel shapes and lettering. They operate on the complete shared image when several panels are joined. The same actions are available in Image settings. Each action supports one Undo step.
+
+**Snap** toggles a 10% position grid for the current page. The guide appears over the selected picture (or its joined pieces) while cropping. Dragging, pinch positioning, offset sliders and arrow keys snap to this grid. Zoom stays precise. Turn Snap off for free positioning. Toggling it preserves the current crop until the next positioning edit. The setting autosaves with the page and supports Undo/Redo; old pages start with it off. The guide is an editor overlay and does not appear in the reader or exports.
+
+Run `node tests/crop-fit-grid.cjs` for Fit/Fill controls and shared crops, 2,807 snap positions, old-project migration, project validation, actual pointer gestures, single-step Undo/Redo, cancellation and editor-only guides.
