@@ -240,3 +240,13 @@ Open **Image settings → Copy crop**, select a different picture, and choose **
 You can reuse the copied crop across pages and books until Koma reloads. The internal clipboard contains only crop settings, not picture data, and is separate from the system clipboard and project backups. Changing the source after copying does not change the saved crop. Copying does not add an Undo step. Pasting is one Undo step; an already-matching crop makes no extra history entry. Empty panels cannot copy or paste.
 
 Run `node tests/crop-copy.cjs` for actual Copy/Paste handlers, exact field selection, source/content/color preservation, shared targets, independent crops, Undo/Redo, matching-crop handling, cross-page/book reuse, empty panels and clipboard isolation.
+
+## Named saved crops
+
+Open **Image settings → Saved crops**. Enter a name and choose **Save current crop as new**. Each book holds up to 20 uniquely named crop presets. They store framing, fit, zoom, position, rotation and flips, and stay with the book through autosave, reopening, independent book copies and editable project backups. Pictures and color adjustments are not stored in presets.
+
+Choose a saved crop, then **Apply crop** to use it on the selected picture or all its joined pieces. The target picture, colors, frames and lettering stay intact. Applying uses the target panel's proportions, without rounding to the snap grid. An already-matching crop adds no Undo step. Edit the Crop name field and choose **Rename** to rename the selection. **Remove saved crop** removes the preset without changing pictures that already use its settings. Saving, applying, renaming and removing each support Undo.
+
+Presets are separate from the temporary Copy crop clipboard. Changing a source picture does not change its saved preset. Books keep separate preset libraries. Old books start with an empty library; malformed, duplicate or out-of-range imported presets are rejected.
+
+Run `node tests/crop-presets.cjs` for actual preset actions, content and shared-picture preservation, Undo/Redo, backup and independent-copy round trips, legacy migration, input preservation, naming and capacity limits, empty pictures, malformed imports and book isolation.
