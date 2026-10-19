@@ -261,3 +261,23 @@ wa-dropdown.export-menu::part(menu){width:min(280px,calc(100vw - 24px));padding:
  .export-menu wa-dropdown-item{min-height:58px;font-size:13px}
  .export-menu wa-dropdown-item small{font-size:11px}
 }
+
+/* Library sections use the same tab behavior as the Designer. */
+.resource-tab-group{display:block;flex:1 0 auto;min-width:0;--indicator-color:var(--accent-dark);--track-color:var(--line);--track-width:2px}
+.resource-tab-group::part(nav){position:sticky;top:0;z-index:14;padding:4px 10px 0;background:var(--paper)}
+.resource-tab-group::part(tabs){width:100%}
+.resource-tab-group wa-tab{flex:1;min-width:0}
+.resource-tab-group wa-tab::part(tab){width:100%;min-height:40px;padding:0 5px;font-family:inherit;font-size:11px;justify-content:center;color:var(--muted)}
+.resource-tab-group wa-tab[active]::part(tab){font-weight:700;color:var(--accent-dark);background:oklch(94% .018 125)}
+.resource-tab-group wa-tab-panel{--padding:0;min-width:0}
+#pictures-workspace[active]{display:flex;flex-direction:column}
+.auto-selecting>.resource-tab-group::part(nav){display:none}
+.mobile-page-dropdown{display:none}
+.mobile-page-dropdown::part(menu){min-width:220px;padding:6px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:9px;box-shadow:0 5px 20px #23351d20}
+.mobile-page-dropdown wa-dropdown-item{min-height:44px;font-family:inherit;font-size:13px}
+.mobile-page-dropdown wa-dropdown-item .icon{width:17px;height:17px}
+@media(max-width:760px){
+ .resource-tab-group::part(nav){top:56px;margin:0 -16px;padding:4px 16px 0}
+ .resource-tab-group wa-tab::part(tab){min-height:44px;font-size:14px}
+ .mobile-page-dropdown{display:inline-block}
+}

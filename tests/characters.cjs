@@ -1,7 +1,7 @@
 // Run with: node tests/characters.cjs
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
 const core=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\ninit\(\);\s*$/,'');
-const ids={};let document;const make=()=>({value:'',textContent:'',hidden:false,children:[],classList:{toggle(){}},style:{},setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},append(...items){this.children.push(...items)},replaceChildren(){this.children=[]},focus(){document.activeElement=this},select(){},querySelector(){return make()},querySelectorAll(){return this.children},get selectedOptions(){return this.children.filter(c=>c.value===this.value)}});
+const ids={};let document;const make=()=>({value:'',textContent:'',hidden:false,children:[],addEventListener(){},classList:{toggle(){}},style:{},setAttribute(k,v){this[k]=v},removeAttribute(k){delete this[k]},append(...items){this.children.push(...items)},replaceChildren(){this.children=[]},focus(){document.activeElement=this},select(){},querySelector(){return make()},querySelectorAll(){return this.children},get selectedOptions(){return this.children.filter(c=>c.value===this.value)}});
 document={activeElement:null,getElementById:id=>ids[id]||(ids[id]=make()),createElement:make};
 const c=vm.createContext({assert,console,Blob,URL,document,Image:function(){return make()},window:{},crypto:require('node:crypto').webcrypto});vm.runInContext(core,c);
 vm.runInContext(String.raw`
