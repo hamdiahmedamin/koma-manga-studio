@@ -9,8 +9,8 @@ globalThis.KomaImageTools = (() => {
   function pan(start, from, to, size) {
     return {
       zoom: start.zoom,
-      panX: round(clamp(start.panX + (to.x - from.x) / size.width * 100, -100, 100)),
-      panY: round(clamp(start.panY + (to.y - from.y) / size.height * 100, -100, 100))
+      panX: round(clamp(start.panX + (to.x - from.x) / size.width * 100, -200, 200)),
+      panY: round(clamp(start.panY + (to.y - from.y) / size.height * 100, -200, 200))
     };
   }
   const midpoint = (a, b) => ({x: (a.x + b.x) / 2, y: (a.y + b.y) / 2});
@@ -22,14 +22,20 @@ globalThis.KomaImageTools = (() => {
     const initial = midpoint(from[0], from[1]), current = midpoint(to[0], to[1]);
     const x = (current.x - size.width / 2) - ratio * (initial.x - size.width / 2 - start.panX / 100 * size.width);
     const y = (current.y - size.height / 2) - ratio * (initial.y - size.height / 2 - start.panY / 100 * size.height);
-    return {zoom: round(zoom), panX: round(clamp(x / size.width * 100, -100, 100)), panY: round(clamp(y / size.height * 100, -100, 100))};
+    return {zoom: round(zoom), panX: round(clamp(x / size.width * 100, -200, 200)), panY: round(clamp(y / size.height * 100, -200, 200))};
   }
   function snapPosition(patch, enabled) {
     const result = {...patch};
     if (enabled) for (const key of ['panX', 'panY']) {
-      if (result[key] !== undefined) result[key] = clamp(Math.round(result[key] / 10) * 10, -100, 100) || 0;
+      if (result[key] !== undefined) result[key] = clamp(Math.round(result[key] / 10) * 10, -200, 200) || 0;
     }
     return result;
   }
-  return {css, pan, pinch, snapPosition};
+  function alignment(n, horizontal, vertical) {
+    const offset = value => round((n.zoom / 100 - 1) * (.5 - value) * 100) || 0;
+    return {x: (n.flipX ? 1 - horizontal : horizontal) * 100,
+      y: (n.flipY ? 1 - vertical : vertical) * 100,
+      panX: offset(horizontal), panY: offset(vertical), rotation: 0};
+  }
+  return {css, pan, pinch, snapPosition, alignment};
 })();

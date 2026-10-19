@@ -224,3 +224,11 @@ In **Crop** mode, **Fit** centers the whole picture and **Fill** covers its fram
 **Snap** toggles a 10% position grid for the current page. The guide appears over the selected picture (or its joined pieces) while cropping. Dragging, pinch positioning, offset sliders and arrow keys snap to this grid. Zoom stays precise. Turn Snap off for free positioning. Toggling it preserves the current crop until the next positioning edit. The setting autosaves with the page and supports Undo/Redo; old pages start with it off. The guide is an editor overlay and does not appear in the reader or exports.
 
 Run `node tests/crop-fit-grid.cjs` for Fit/Fill controls and shared crops, 2,807 snap positions, old-project migration, project validation, actual pointer gestures, single-step Undo/Redo, cancellation and editor-only guides.
+
+## Picture alignment presets
+
+Open **Image settings → Align picture** and choose one of nine positions, from Top left to Bottom right. Alignment keeps the current zoom, picture fit, colors and flips, and straightens rotation. It works across all panels sharing the picture, without changing their shapes or lettering. **Center** centers the picture without changing its zoom.
+
+Presets use exact edges even when grid snapping is on. Picture offsets now extend to ±200%, allowing precise edge alignment at the maximum 500% zoom. Subsequent dragging, sliders and arrow keys use the same offset range. Alignment saves as ordinary picture settings, appears in every rendered output, and is one Undo step.
+
+Run `node tests/picture-alignment.cjs` for 6,480 combinations of fit, image/frame proportions, zoom, flips and anchor positions; actual preset handlers; independent/shared crops; content preservation; active/disabled controls; project round trips; offset limits; and Undo/Redo.
