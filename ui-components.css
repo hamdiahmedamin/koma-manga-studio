@@ -253,11 +253,11 @@ wa-color-picker::part(swatch) { width: 100%; min-height: 32px; border-radius: 4p
 wa-dropdown.export-menu::part(menu){width:min(280px,calc(100vw - 24px));padding:6px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:9px;box-shadow:0 9px 30px #232d171a}
 .export-menu wa-dropdown-item{font-family:inherit;font-size:12px;--wa-color-surface-default:var(--paper);--wa-color-surface-raised:var(--paper)}
 .export-menu wa-dropdown-item::part(label){font-weight:600}
-.export-menu wa-dropdown-item::part(details){font-size:10px;line-height:1.5;color:var(--muted);white-space:normal}
+.export-menu wa-dropdown-item small{display:block;font-size:10px;font-weight:400;line-height:1.5;color:var(--muted);white-space:normal;margin-top:3px}
 .export-menu wa-dropdown-item .icon{width:17px;height:17px}
 @media(max-width:760px){
  .studio-tab-group::part(nav){top:56px}
  .studio-tab-group wa-tab::part(tab){min-height:46px;font-size:13px}
  .export-menu wa-dropdown-item{min-height:58px;font-size:13px}
- .export-menu wa-dropdown-item::part(details){font-size:11px}
+ .export-menu wa-dropdown-item small{font-size:11px}
 }
