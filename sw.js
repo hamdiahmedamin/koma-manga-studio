@@ -1,11 +1,12 @@
 'use strict';
 
 // package_pwa.py changes this version whenever an app-shell file changes.
-const VERSION = 'd9dd7c10d56c5b0d';
+const VERSION = '768acf7d40b648d6';
 const PREFIX = 'koma-shell:' + self.registration.scope + ':';
 const CACHE = PREFIX + VERSION;
 const FILES = [
-  './', './index.html', './pwa.js',
+  './', './index.html', './ui-components.css', './vendor/webawesome.js',
+  './vendor/webawesome.css', './vendor/WEB-AWESOME-LICENSE.md', './pwa.js',
   './book-store.js',
   './image-tools.js', './book-output.js', './manifest.webmanifest',
   './icons/app-192.png', './icons/app-512.png',

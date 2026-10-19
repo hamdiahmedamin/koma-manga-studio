@@ -1,0 +1,11 @@
+{
+  "name": "koma-manga-studio",
+  "private": true,
+  "scripts": {
+    "build:ui": "esbuild ui-components.entry.js --bundle --format=iife --minify --outfile=vendor/webawesome.js && esbuild node_modules/@awesome.me/webawesome/dist/styles/themes/default.css --bundle --minify --outfile=vendor/webawesome.css"
+  },
+  "devDependencies": {
+    "@awesome.me/webawesome": "3.14.0",
+    "esbuild": "0.25.12"
+  }
+}

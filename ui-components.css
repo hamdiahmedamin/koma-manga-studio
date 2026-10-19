@@ -1,0 +1,82 @@
+/* Web Awesome Core, adapted to Koma's compact paper-and-ink workspace. */
+:root {
+  --wa-font-family-body: Arial, Helvetica, sans-serif;
+  --wa-font-family-heading: var(--wa-font-family-body);
+  --wa-color-focus: oklch(47% .09 125);
+  --wa-color-text-normal: var(--ink);
+  --wa-color-text-quiet: var(--muted);
+  --wa-color-surface-default: var(--paper);
+  --wa-color-surface-raised: var(--paper);
+  --wa-color-surface-border: var(--line);
+  --wa-color-brand-fill-loud: oklch(88% .14 125);
+  --wa-color-brand-on-loud: oklch(27% .025 125);
+  --wa-border-radius-m: 6px;
+  --wa-focus-ring-width: 2px;
+  --wa-focus-ring-offset: 3px;
+}
+wa-button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  vertical-align: middle;
+  outline-offset: 3px;
+  transition: background .15s, color .15s, box-shadow .15s;
+}
+/* Keep sizing on the host so existing responsive layouts remain authoritative. */
+wa-button::part(base) {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.35;
+}
+wa-button::part(label) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  white-space: inherit;
+}
+wa-button[disabled] { opacity: .38; cursor: default; }
+wa-button:not([disabled]):hover { background: oklch(92% .018 125); }
+wa-button:not([disabled]):active { box-shadow: inset 0 0 0 1px oklch(47% .05 125 / .3); }
+wa-button::part(base):focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
+wa-button.icon-btn { padding: 0; flex-shrink: 0; }
+wa-button.icon-btn::part(label) { gap: 0; }
+wa-button.upload-button { background: var(--accent); }
+/* Disclosure headers stay keyboard accessible and use the library's real icon. */
+wa-details { display: block; font: inherit; --spacing: 0; }
+wa-details::part(base) { border: 0; border-radius: 0; background: transparent; }
+wa-details::part(header) {
+  min-height: 36px;
+  padding: 8px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  gap: 8px;
+}
+wa-details::part(content) { padding: 10px 0 0; }
+wa-details::part(icon) { color: var(--muted); font-size: 12px; }
+wa-details > [slot="summary"] { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+wa-details > [slot="summary"]::after { content: none !important; }
+wa-details [slot="summary"] .panel-picker { max-width: 105px; }
+wa-details.crop-presets-settings > [slot="summary"] span { margin-left: auto; float: none; }
+@media (max-width: 760px) {
+  wa-details::part(header) { min-height: 44px; font-size: 13px; }
+  wa-details::part(content) { padding-top: 12px; }
+  wa-button::part(label) { gap: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  wa-button { transition: none; }
+  wa-details { --show-duration: 0ms; --hide-duration: 0ms; }
+}

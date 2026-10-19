@@ -250,3 +250,9 @@ Choose a saved crop, then **Apply crop** to use it on the selected picture or al
 Presets are separate from the temporary Copy crop clipboard. Changing a source picture does not change its saved preset. Books keep separate preset libraries. Old books start with an empty library; malformed, duplicate or out-of-range imported presets are rejected.
 
 Run `node tests/crop-presets.cjs` for actual preset actions, content and shared-picture preservation, Undo/Redo, backup and independent-copy round trips, legacy migration, input preservation, naming and capacity limits, empty pictures, malformed imports and book isolation.
+
+### UI components
+
+Koma uses the free, MIT-licensed Web Awesome Core 3.14.0 for action buttons and collapsible settings. The manga canvas, touch tools, native text fields, and book format remain Koma's own. Components and theme are bundled locally, cached with the offline app, and require no account, CDN, or paid kit.
+
+To rebuild the checked-in UI bundle after changing `ui-components.entry.js`, run `npm ci` then `npm run build:ui`. `ui-components.css` adapts the components to Koma's colors, density, and mobile touch targets. The license is included in `vendor/WEB-AWESOME-LICENSE.md`. Run `python3 package_pwa.py` after any public asset changes.
