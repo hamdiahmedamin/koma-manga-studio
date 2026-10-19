@@ -1,0 +1,14 @@
+// Actual settings handlers must keep booleans distinct from ordinary field values.
+const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),assert=require('node:assert/strict');
+const nodes={};function node(tag='div'){return {localName:tag,value:'',checked:false,children:[],dataset:{},classList:{toggle(){}},events:{},append(...n){this.children.push(...n)},replaceChildren(){this.children=[]},querySelectorAll(){return this.children},addEventListener(t,f){this.events[t]=f}}}
+const document={getElementById:id=>nodes[id]??(nodes[id]=node()),createElement:node};const c=vm.createContext({assert,console,document,crypto:require('node:crypto').webcrypto,window:{matchMedia:()=>({matches:false})}});vm.runInContext(fs.readFileSync(path.join(__dirname,'../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\ninit\(\);\s*$/,''),c);
+vm.runInContext(`
+book=initialBook();activePage=0;selectedPanel=0;selectedBubble=null;page().layout='four';render=()=>{};renderPaper=()=>{};renderPages=()=>{};renderSettings=()=>{};updateHistory=()=>{};scheduleSave=()=>{};toast=()=>{};updateCropControls=()=>{};
+bindSetting('show-header',v=>page().showHeader=v);const header=document.getElementById('show-header'),before=snapshot();header.events.change({target:{localName:'wa-switch',checked:false,value:'on'}});assert.equal(page().showHeader,false);assert.equal(undoStack.length,1);undo();assert.equal(snapshot(),before);redo();assert.equal(page().showHeader,false);
+bindSetting('flip-x',v=>panel().flipX=v);document.getElementById('flip-x').events.change({target:{localName:'wa-checkbox',checked:true,value:'on'}});assert.equal(panel().flipX,true);validateBook(JSON.parse(snapshot()));
+bindSetting('image-fit',v=>panel().fit=v);document.getElementById('image-fit').events.change({target:{localName:'wa-select',value:'contain'}});assert.equal(panel().fit,'contain');
+renderPictureSpans();const choices=document.getElementById('picture-span-panels').children;assert.equal(choices.length,4);assert(choices.every(e=>e.localName==='wa-checkbox'));assert(choices[0].checked&&choices[0].disabled);assert.equal(choices[0].textContent,'Panel 1 (source)');assert.deepEqual(spanSelection(),[0]);assert(document.getElementById('apply-picture-span').disabled);
+choices[1].checked=true;choices[1].onchange();assert.deepEqual(spanSelection(),[0,1]);assert(!document.getElementById('apply-picture-span').disabled);choices[1].checked=false;choices[1].onchange();assert(document.getElementById('apply-picture-span').disabled);
+setupPictureSpans();document.getElementById('picture-span-all').onclick();assert.deepEqual(spanSelection(),[0,1,2,3]);assert(choices[0].disabled);
+console.log('PASS: switches/checkboxes commit real booleans with Undo, selects keep string values, and dynamic panel choices preserve the disabled source, selection counts and Select all');
+`,c);

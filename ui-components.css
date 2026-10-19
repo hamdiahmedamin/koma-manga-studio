@@ -189,3 +189,29 @@ wa-slider[disabled] { opacity: .38; }
   wa-slider { --thumb-width: 24px; --thumb-height: 24px; }
   wa-slider::part(slider) { min-height: 44px; }
 }
+
+/* Immediate settings use switches; independent selections use checkboxes. */
+wa-switch.check-row, wa-checkbox.check-row {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 11px;
+  --wa-color-brand-fill-loud: var(--accent-dark);
+  --wa-color-brand-border-loud: var(--accent-dark);
+  --wa-color-brand-on-loud: var(--paper);
+  --checked-icon-color: var(--paper);
+}
+wa-switch { --width: 34px; --height: 20px; --thumb-size: 16px; }
+wa-switch::part(switch), wa-checkbox::part(checkbox) { min-height: 32px; width: 100%; align-items: center; gap: 9px; }
+wa-switch::part(label), wa-checkbox::part(label) { line-height: 1.5; white-space: normal; }
+wa-switch::part(control), wa-checkbox::part(control) { flex-shrink: 0; border-color: var(--muted); }
+wa-switch:state(checked)::part(control), wa-checkbox:state(checked)::part(control) { border-color: var(--accent-dark); background: var(--accent-dark); }
+wa-switch::part(thumb) { background: var(--paper); }
+wa-checkbox::part(control) { width: 18px; height: 18px; border-radius: 3px; }
+@media(max-width:760px) {
+  wa-switch.check-row, wa-checkbox.check-row { font-size: 13px; }
+  wa-switch { --width: 40px; --height: 24px; --thumb-size: 20px; }
+  wa-switch::part(switch), wa-checkbox::part(checkbox) { min-height: 44px; }
+  wa-checkbox::part(control) { width: 22px; height: 22px; }
+}
