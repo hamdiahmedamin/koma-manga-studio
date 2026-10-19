@@ -8,6 +8,7 @@ import '@awesome.me/webawesome/dist/components/textarea/textarea.js';
 import '@awesome.me/webawesome/dist/components/slider/slider.js';
 import '@awesome.me/webawesome/dist/components/switch/switch.js';
 import '@awesome.me/webawesome/dist/components/checkbox/checkbox.js';
+import '@awesome.me/webawesome/dist/components/color-picker/color-picker.js';
 
 // Koma keeps labels and toggle state on the host for its existing handlers.
 // Forward those attributes to the real focusable control inside Web Awesome.

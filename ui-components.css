@@ -215,3 +215,28 @@ wa-checkbox::part(control) { width: 18px; height: 18px; border-radius: 3px; }
   wa-switch::part(switch), wa-checkbox::part(checkbox) { min-height: 44px; }
   wa-checkbox::part(control) { width: 22px; height: 22px; }
 }
+
+/* Opaque hex colors match the existing book and export format. */
+wa-color-picker {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 54px;
+  --grid-width: min(280px, calc(100vw - 32px));
+  --grid-height: 160px;
+  --slider-height: 18px;
+  --slider-handle-size: 22px;
+  --grid-handle-size: 18px;
+  color: var(--ink);
+  font-size: 13px;
+}
+wa-color-picker::part(trigger) { width: 54px; min-height: 36px; border: 1px solid var(--line); border-radius: 5px; padding: 3px; }
+wa-color-picker::part(color-picker) { background: var(--paper); border-color: var(--line); border-radius: 7px; color: var(--ink); }
+wa-color-picker::part(form-control-label) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; margin: -1px; }
+wa-color-picker::part(swatches) { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
+wa-color-picker::part(swatch) { width: 100%; min-height: 32px; border-radius: 4px; }
+@media(max-width:760px) {
+  wa-color-picker { --slider-height: 24px; --slider-handle-size: 28px; --grid-handle-size: 22px; font-size: 14px; }
+  wa-color-picker::part(trigger) { min-height: 44px; }
+  wa-color-picker::part(swatch) { min-height: 44px; }
+  wa-color-picker::part(input) { font-size: 16px; }
+}
