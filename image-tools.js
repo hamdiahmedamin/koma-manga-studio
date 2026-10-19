@@ -17,7 +17,7 @@ globalThis.KomaImageTools = (() => {
   const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   function pinch(start, from, to, size) {
     const initialDistance = Math.max(1, distance(from[0], from[1]));
-    const zoom = clamp(start.zoom * distance(to[0], to[1]) / initialDistance, 100, 250);
+    const zoom = clamp(start.zoom * distance(to[0], to[1]) / initialDistance, 100, 500);
     const ratio = zoom / start.zoom;
     const initial = midpoint(from[0], from[1]), current = midpoint(to[0], to[1]);
     const x = (current.x - size.width / 2) - ratio * (initial.x - size.width / 2 - start.panX / 100 * size.width);

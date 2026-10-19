@@ -2,7 +2,7 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');const core=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\ninit\(\);\s*$/,'');
 const nodes=[],docEvents={};
-function frame(i){const listeners={},attrs={},line={setAttribute(k,v){this[k]=v}},outline={setAttribute(k,v){attrs[k]=v},querySelector:()=>line};return {dataset:{panel:String(i)},style:{},attrs,listeners,line,querySelector:()=>outline,setPointerCapture(){},releasePointerCapture(){},focus(){},addEventListener:(k,f)=>listeners[k]=f,removeEventListener:(k,f)=>{if(listeners[k]===f)delete listeners[k]}}}
+function frame(i){const listeners={},attrs={},line={setAttribute(k,v){this[k]=v}},outline={setAttribute(k,v){attrs[k]=v},querySelector:()=>line};return {dataset:{panel:String(i)},style:{},attrs,listeners,line,querySelector:s=>s==='.picture-plane'?null:outline,setPointerCapture(){},releasePointerCapture(){},focus(){},addEventListener:(k,f)=>listeners[k]=f,removeEventListener:(k,f)=>{if(listeners[k]===f)delete listeners[k]}}}
 for(let i=0;i<16;i++)nodes.push(frame(i));
 const grid={getBoundingClientRect:()=>({width:542,height:760}),querySelectorAll:()=>nodes.slice(0,3)},document={getElementById:id=>id==='manga-grid'?grid:{},addEventListener:(k,f)=>docEvents[k]=f,removeEventListener:(k,f)=>{if(docEvents[k]===f)delete docEvents[k]}};
 const ctx=vm.createContext({console,assert,nodes,docEvents,crypto:require('node:crypto').webcrypto,document,window:{matchMedia:()=>({matches:false})}});vm.runInContext(core,ctx);

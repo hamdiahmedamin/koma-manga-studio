@@ -28,7 +28,7 @@ The previous single-book autosave is copied into the library on the first launch
 
 Open **Text → Sound effect** to add outlined manga lettering such as **BAM!**. Edit the words, font, size (up to 96 pixels for sound effects), alignment, text color, and outline color. **Letter outline** controls stroke thickness from 0 to 8 pixels. The background stays transparent, and the words display in uppercase. The Impact lettering choice uses available system fonts, with local fallbacks; no font download is needed.
 
-Use **Text rotation** to tilt sound effects, speech bubbles, thoughts, or captions from −60° to 60°. Drag lettering in **Move** mode to place it. **Duplicate** makes an independent editable copy, including its styling, and offsets it slightly. Undo and redo support these changes. Each panel supports 12 lettering elements in total.
+Use **Text rotation** to tilt sound effects, speech bubbles, thoughts, or captions from −60° to 60°. Drag lettering in **Panel** mode to place it. **Duplicate** makes an independent editable copy, including its styling, and offsets it slightly. Undo and redo support these changes. Each panel supports 12 lettering elements in total.
 
 Sound effects share measured line breaks, outline padding, and font-baseline placement between the editor and rendered pages. Rotation and outlines are included in the reader, covers, PNG, PDF, and CBZ output. A warning appears when the lettering box extends outside any edge of its panel. Existing projects open with zero rotation and no text outline on ordinary dialogue.
 
@@ -204,3 +204,15 @@ Select a speech bubble and open **Text**. With **Show speech tail** enabled, cho
 New speech bubbles use a continuous outline shared by the editor and all rendered exports. Existing bubbles retain their original appearance until a tail setting is edited. Tail settings survive project backups, duplication and autosave. The panel warning includes the tail tip; keep it within the panel to avoid clipping. Thought bubbles, captions and sound effects retain their existing controls.
 
 Run `node tests/speech-tails.cjs` for 2,400 combinations of sides, sizes, positions, lengths and slants; non-crossing outlines; legacy preservation; actual controls and Undo/Redo; independent copies; project validation; and shared editor/export geometry.
+
+## Picture crops and continuous spans
+
+Tap **Crop** below the canvas to drag the picture inside its frame. Placing a picture activates Crop automatically. Pinch to zoom, or use the visible −/+ crop buttons; zoom runs from 100% to 500%. **Image settings** opens fit, focal position, offsets, rotation and color controls. **Done** returns to Panel mode. Arrow keys in Crop mode move the image (Shift moves faster). Each gesture or zoom action supports Undo.
+
+To show one continuous image through several panels, select its source panel and open **Designer → Image → Span picture across panels**. Check the target panels (or All panels), then choose **Span picture**. This replaces the chosen panels' pictures while retaining their frames, shapes and lettering. Drag, pinch, zoom and other picture adjustments affect every joined piece together. Gutters hide the corresponding strip of the image.
+
+The shared image fits the combined visible frames and stays aligned when frames resize or their corners move. Hidden template slots do not enlarge the visible image area. A duplicated panel gets an independent crop; duplicated pages keep independent span groups. Replacing or removing one panel's picture separates that panel. **Edit this panel separately** also separates it and resets its crop, retaining its picture and color adjustments. Undo restores the original shared image.
+
+Spans and crops autosave and survive editable project backups. The same viewport is used in the editor, reader, covers, PNG, PDF and CBZ. Old projects retain their existing picture settings. Conflicting span settings in imported projects are rejected.
+
+Run `node tests/picture-spans.cjs` for 45 template/spacing combinations, group geometry, source-content preservation, actual controls and gesture handlers, jitter and foreign-pointer rejection, pinch limits, cancellation and Undo/Redo, project validation, independent page copies, and shared Canvas export coordinates.
