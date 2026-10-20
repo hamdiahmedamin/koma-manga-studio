@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),assert=require('node:assert/strict');
+const nodes={},document={getElementById:id=>nodes[id]??(nodes[id]={events:{},addEventListener(t,f){(this.events[t]??=[]).push(f)}})};
+const c=vm.createContext({console,assert,document,crypto:require('node:crypto').webcrypto,window:{matchMedia:()=>({matches:false})}});
+vm.runInContext(fs.readFileSync(path.join(__dirname,'../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1].replace(/\ninit\(\);\s*$/,''),c);
+vm.runInContext(`
+book=initialBook();activePage=0;selectedPanel=0;selectedBubble=panel().bubbles[0].id;render=()=>{};renderPaper=()=>{};renderPages=()=>{};renderSettings=()=>{};updateHistory=()=>{};scheduleSave=()=>{};toast=()=>{};
+const old=JSON.parse(snapshot());for(const p of old.pages)for(const n of p.panels)for(const b of n.bubbles)delete b.opacity;const migrated=validateBook(old);assert.equal(migrated.pages[0].panels[0].bubbles[0].opacity,100);
+bindRange('bubble-opacity',()=>bubble()?.opacity??100,n=>{if(bubble())bubble().opacity=n});const node=document.getElementById('bubble-opacity'),before=snapshot();node.events.pointerdown.forEach(f=>f());for(const v of [80,60,50]){node.value=v;node.events.input.forEach(f=>f())}node.events.change.forEach(f=>f());assert.equal(bubble().opacity,50);assert.equal(undoStack.length,1);assert.equal(document.getElementById('bubble-opacity-output').textContent,'50%');const after=snapshot();undo();assert.equal(snapshot(),before);redo();assert.equal(snapshot(),after);
+for(const invalid of [-1,101,'50',null]){const bad=JSON.parse(snapshot());bad.pages[0].panels[0].bubbles[0].opacity=invalid;assert.throws(()=>validateBook(bad))}
+const calls=[],stack=[],ctx=new Proxy({globalAlpha:1,save(){stack.push(this.globalAlpha)},restore(){this.globalAlpha=stack.pop()},measureText:s=>({width:s.length*8,fontBoundingBoxAscent:12,fontBoundingBoxDescent:4}),fill(){calls.push(this.globalAlpha)},stroke(){calls.push(this.globalAlpha)},fillText(){calls.push(this.globalAlpha)},strokeText(){calls.push(this.globalAlpha)}},{get:(o,k)=>k in o?o[k]:()=>{}});
+for(const type of ['speech','thought','caption','sfx'])for(const opacity of [0,50,100]){calls.length=0;const item=bubbleDefaults({id:uid(),type,text:'Hello',x:10,y:10,width:70,size:16,opacity,...(type==='speech'?speechTailDefaults():{})});drawBubble(ctx,item,{x:0,y:0,w:500,h:500});assert(calls.length);assert(calls.every(a=>a===opacity/100));assert.equal(ctx.globalAlpha,1)}
+assert.equal(validateBook(JSON.parse(snapshot())).pages[0].panels[0].bubbles[0].opacity,50);
+console.log('PASS: legacy defaults, slider gesture Undo/Redo, valid backup round trip, invalid opacity rejection and whole-bubble Canvas alpha at 0/50/100% for every lettering type');
+`,c);
