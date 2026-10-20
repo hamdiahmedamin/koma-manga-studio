@@ -928,8 +928,8 @@ function startBubbleDrag(e,i,b,el){
  gestureCancel=cancel;el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',cancel);document.addEventListener('keydown',key);
 }
 function fittedPageWidth(width,height,padding=12){return Math.max(1,Math.min(620,Math.max(1,width-padding*2),Math.max(1,height-padding*2)*600/848))}
-function fitPaper(){const stage=$('stage'),padding=isMobile()?12:24,fit=fittedPageWidth(stage.clientWidth,stage.clientHeight,padding);const width=zoom==='fit'?fit:fit*zoom;$('paper').style.setProperty('--page-width',width+'px');$('zoom-fit').textContent=zoom==='fit'?'Fit':Math.round(zoom*100)+'%';$('zoom-out').disabled=zoom!=='fit'&&zoom<=.6;$('zoom-in').disabled=zoom!=='fit'&&zoom>=(isMobile()?3:2)}
-function changeZoom(delta){const maximum=isMobile()?3:2;zoom=round(clamp((zoom==='fit'?1:zoom)+delta,.6,maximum));fitPaper()}
+function fitPaper(){const stage=$('stage'),padding=isMobile()?12:24,fit=fittedPageWidth(stage.clientWidth,stage.clientHeight,padding);const width=zoom==='fit'?fit:fit*zoom;$('paper').style.setProperty('--page-width',width+'px');$('zoom-fit').textContent=zoom==='fit'?'Fit':Math.round(zoom*100)+'%';$('zoom-out').disabled=zoom!=='fit'&&zoom<=.6;$('zoom-in').disabled=zoom!=='fit'&&zoom>=(5)}
+function changeZoom(delta){const maximum=5;zoom=round(clamp((zoom==='fit'?1:zoom)+delta,.6,maximum));fitPaper()}
 function syncViewport(){const v=window.visualViewport;if(v&&v.scale!==1)return;document.documentElement.style.setProperty('--app-height',(v?.height||window.innerHeight)+'px');document.documentElement.style.setProperty('--keyboard-offset',Math.max(0,window.innerHeight-(v?.height||window.innerHeight)-(v?.offsetTop||0))+'px');fitPaper()}
 const PAGE_MENU_ACTIONS={'organize':'organize-pages','earlier':'move-page-left','later':'move-page-right','duplicate':'duplicate-page','delete':'delete-page'};
 function syncPageActions(){for(const [key,id] of Object.entries(PAGE_MENU_ACTIONS))$('page-action-'+key).disabled=Boolean($(id).disabled)}
