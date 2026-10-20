@@ -336,4 +336,6 @@ wa-button.lettering-layer::part(base){padding-left:24px;color:var(--muted);font-
 wa-button.layer-row[aria-pressed=true]::part(base){background:oklch(93% .045 125);color:var(--ink);box-shadow:inset 3px 0 var(--accent-dark);font-weight:700}
 wa-button.layer-row:last-child::part(base){border-bottom:0}
 .layer-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}
-@media(max-width:700px){wa-button.layer-row::part(base){min-height:44px}.layers-entry::part(base){padding-inline:7px}}
+@media(max-width:700px){wa-button.layer-row::part(base){min-height:44px}.canvas-toolbar wa-button.layers-entry{padding:0 7px;min-height:44px}}
+
+@media(max-width:400px){.canvas-toolbar .page-label,.canvas-toolbar .toolbar-group:first-child .separator{display:none}}
