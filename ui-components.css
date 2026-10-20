@@ -325,3 +325,15 @@ body>.app{position:fixed;inset:0;display:flex;flex-direction:column;height:100vh
 /* Prevent focus restoration from scrolling the document behind the editor. */
 body{position:fixed;inset:0;width:100%;overflow:clip}
 @media print{body{position:static!important;inset:auto!important;width:auto!important}}
+/* Page layers share the inspector's scrolling surface. */
+.page-layers{border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:16px}
+#layers-count{margin-left:6px;font:10px 'Courier New',monospace;color:var(--muted)}
+.layers-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:4px;overflow:clip}
+wa-button.layer-row{display:block;width:100%;min-width:0;margin:0}
+wa-button.layer-row::part(base){width:100%;min-height:36px;justify-content:flex-start;border:0;border-radius:0;border-bottom:1px solid var(--line);padding:6px 10px;background:var(--paper);font-size:11px;text-align:left}
+wa-button.layer-row::part(label){overflow-wrap:anywhere;white-space:normal}
+wa-button.lettering-layer::part(base){padding-left:24px;color:var(--muted);font-size:10px}
+wa-button.layer-row[aria-pressed=true]::part(base){background:oklch(93% .045 125);color:var(--ink);box-shadow:inset 3px 0 var(--accent-dark);font-weight:700}
+wa-button.layer-row:last-child::part(base){border-bottom:0}
+.layer-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}
+@media(max-width:700px){wa-button.layer-row::part(base){min-height:44px}.layers-entry::part(base){padding-inline:7px}}

@@ -256,3 +256,11 @@ Run `node tests/crop-presets.cjs` for actual preset actions, content and shared-
 Koma uses the free, MIT-licensed Web Awesome Core 3.14.0 for action buttons, styled dropdown listboxes, text and number inputs, textareas, sliders, switches, checkboxes, color pickers, and collapsible settings. The manga canvas, touch tools, and book format remain Koma's own. Components and theme are bundled locally, cached with the offline app, and require no account, CDN, or paid kit.
 
 To rebuild the checked-in UI bundle after changing `ui-components.entry.js`, run `npm ci` then `npm run build:ui`. `ui-components.css` adapts the components to Koma's colors, density, and mobile touch targets. The license is included in `vendor/WEB-AWESOME-LICENSE.md`. Run `python3 package_pwa.py` after any public asset changes.
+
+### Page layers
+
+Use **Layers** beside the page number to open the Panel inspector's front-to-back list. Select panels and lettering, give them names, and move them forward or backward. Lettering orders within its own panel; moving a panel carries its pictures and lettering together. Panel numbering and shared-picture groups remain stable.
+
+**Lock position** prevents panel dragging, resizing, and shape edits, or lettering dragging. A panel's lock also protects its lettering positions. Joined dividers stop when they would move a locked neighbor. Pictures, text, appearance, stacking, and page layout changes remain editable. Unlock from the list at any time. Names, order, and position locks save in editable projects and support Undo/Redo.
+
+Run `node tests/layers.cjs` for legacy migration, names and validation, stacking/content preservation, inherited position locks, joined-divider constraints, real actions, selection, independent duplicates, project round trips, and Undo/Redo.
