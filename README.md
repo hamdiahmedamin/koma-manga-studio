@@ -276,3 +276,5 @@ Align left/center/right or top/middle/bottom inside the selection bounds. Alignm
 Each drag, nudge, alignment, or spacing action supports one Undo step and saves with the book. Pictures, shapes, lettering, names, layer order, and shared-picture membership stay attached to their panels. Group controls change positions; other panel settings continue to edit the current panel. Reader and export use the resulting arrangement, without selection outlines.
 
 Run `node tests/panel-groups.cjs` for 243 boundary translations, six alignments, equal edge spacing, lock and room constraints, transient selection and page/book isolation, real controls and gestures, cancellation/Escape, pointer filtering, limit reversal, project validation, and Undo/Redo.
+
+Run `node tests/layer-focus.cjs` for asynchronous layer-row focus, cancellation of superseded focus requests, and detached/disabled row protection.

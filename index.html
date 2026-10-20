@@ -509,13 +509,19 @@ function moveLayer(p,index,bubbleId,delta){
  const order=orderedIndices(p),from=order.indexOf(index),to=from+delta;if(from<0||to<0||to>=order.length)return false;[order[from],order[to]]=[order[to],order[from]];order.forEach((i,z)=>p.panels[i].z=z);return true;
 }
 function selectLayer(index,id=null,add=false){if(gestureCancel)gestureCancel();if(id){resetPanelSelection();selectedPanel=index;selectedBubble=id}else assignPanelSelection(index,add||panelMultiSelect);renderPaper();renderSettings()}
+let layerFocusRequest=0;
+function focusLayerRow(key){
+ const request=++layerFocusRequest,row=$('layers-list').querySelector(`[data-layer-key="${key}"]`);if(!row)return Promise.resolve();
+ // Lit creates the native button asynchronously after a new row is appended.
+ return Promise.resolve(row.updateComplete).then(()=>{if(request===layerFocusRequest&&row.isConnected&&!row.disabled)row.focus({preventScroll:true})});
+}
 function renderLayers(){
  renderPanelGroup();const selected=panelGroupIndices();const p=page(),list=$('layers-list'),focused=list.contains(document.activeElement)?document.activeElement.dataset.layerKey:null;list.replaceChildren();let count=0;
- const row=(n,index,id,fallback,inherited=false)=>{const b=document.createElement('wa-button');b.type='button';b.size='s';b.appearance='plain';b.className='layer-row'+(id?' lettering-layer':'');b.dataset.layerKey=id?'bubble:'+index+':'+p.panels[index].bubbles.indexOf(n):'panel:'+index;const label=layerLabel(n,fallback),locked=n.positionLocked||inherited;b.textContent=(id?'↳ ':'▱ ')+label+(locked?' · Locked':'');b.setAttribute('aria-label','Select layer '+label+(locked?', position locked':''));b.disabled=!!id&&panelMultiSelect;b.setAttribute('aria-pressed',String(id?index===selectedPanel&&selectedBubble===id:!selectedBubble&&selected.includes(index)));b.onclick=e=>{selectLayer(index,id,e.shiftKey);list.querySelector(`[data-layer-key="${b.dataset.layerKey}"]`)?.focus({preventScroll:true})};list.append(b);count++};
+ const row=(n,index,id,fallback,inherited=false)=>{const b=document.createElement('wa-button');b.type='button';b.size='s';b.appearance='plain';b.className='layer-row'+(id?' lettering-layer':'');b.dataset.layerKey=id?'bubble:'+index+':'+p.panels[index].bubbles.indexOf(n):'panel:'+index;const label=layerLabel(n,fallback),locked=n.positionLocked||inherited;b.textContent=(id?'↳ ':'▱ ')+label+(locked?' · Locked':'');b.setAttribute('aria-label','Select layer '+label+(locked?', position locked':''));b.disabled=!!id&&panelMultiSelect;b.setAttribute('aria-pressed',String(id?index===selectedPanel&&selectedBubble===id:!selectedBubble&&selected.includes(index)));b.onclick=e=>{selectLayer(index,id,e.shiftKey);focusLayerRow(b.dataset.layerKey)};list.append(b);count++};
  for(const i of orderedIndices(p).reverse()){const n=p.panels[i];row(n,i,null,'Panel '+(i+1));for(const b of [...n.bubbles].reverse())row(b,i,b.id,(b.type==='sfx'?'Sound effect':b.type[0].toUpperCase()+b.type.slice(1))+' · '+b.text.slice(0,36),n.positionLocked)}
  $('layers-count').textContent=count;const n=selectedLayer();$('layer-name').value=n.layerName||'';$('layer-name').placeholder=bubble()?'Lettering name':'Panel '+(selectedPanel+1);$('layer-lock').checked=!!n.positionLocked||!!bubble()&&!!panel().positionLocked;$('layer-lock').disabled=!!bubble()&&!!panel().positionLocked;$('layer-lock-note').textContent=bubble()&&panel().positionLocked?'This panel locks all of its lettering positions. Unlock the panel first.':'Locks frame corners and dragging. Pictures, text and styles stay editable.';
  const order=bubble()?panel().bubbles:orderedIndices(p),at=bubble()?order.indexOf(bubble()):order.indexOf(selectedPanel);$('layer-raise').disabled=at===order.length-1;$('layer-lower').disabled=at<=0;
- if(focused)list.querySelector(`[data-layer-key="${focused}"]`)?.focus({preventScroll:true});
+ if(focused)focusLayerRow(focused);
 }
 function setupLayers(){
  setupPanelGroup();
