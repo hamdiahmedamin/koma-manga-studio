@@ -278,3 +278,19 @@ Each drag, nudge, alignment, or spacing action supports one Undo step and saves 
 Run `node tests/panel-groups.cjs` for 243 boundary translations, six alignments, equal edge spacing, lock and room constraints, transient selection and page/book isolation, real controls and gestures, cancellation/Escape, pointer filtering, limit reversal, project validation, and Undo/Redo.
 
 Run `node tests/layer-focus.cjs` for asynchronous layer-row focus, cancellation of superseded focus requests, and detached/disabled row protection.
+
+### PNG pictures and New book
+
+PNG uploads keep their transparency and PNG encoding. JPEG uploads retain the existing photo compression. Images are resized to at most 2000 pixels on their longest side; encoded pictures larger than the supported project limit are rejected with a smaller-copy message. Existing flattened imports cannot recover their transparency; upload the original PNG again.
+
+Use **New book** beside **Books** in the workspace header to name and create a blank book. Your current book is saved first and remains in Books. Cancelling the name dialog or a failed save keeps the current book open. The shortcut and library creation button share the same workflow and busy-state protection. On phones, the title sits above the three Read / New book / Books actions.
+
+Run `node tests/png-new-book.cjs` for PNG encoding without flattening, MIME-less PNG names, dimension limits, JPEG preservation, project validation, failure cleanup, new-book creation and cancel/save-failure protection.
+
+### Arabic lettering and image import compatibility
+
+Text settings include **Writing direction** (Automatic / Right to left / Left to right) and an **Arabic system font** option. Automatic direction follows the first letter, including text preceded by numbers or punctuation. The live bubble, text editor, reader and exports use the same direction. Long words wrap by grapheme, keeping Arabic diacritics with their letters. Font appearance depends on the fonts available on the device. Existing lettering defaults to Automatic.
+
+Image imports now try a second browser decoder if the first fails. PNG files with legacy `image/x-png` labels or a generic binary MIME type are accepted when their filename is supported. Unreadable files receive a specific explanation; a `.png` file without a PNG signature is identified when decoding fails. The original file is never modified. Newly imported PNGs retain transparency. A failed browser decoder still cannot repair a damaged picture.
+
+The component bundle initializes after the page markup is parsed, preventing a fresh launch from caching empty tab contents and hiding the picture library. `node tests/arabic-lettering.cjs` covers direction, overrides, Arabic fonts, diacritics, legacy defaults, validation and all four Canvas lettering types.

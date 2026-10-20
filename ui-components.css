@@ -347,3 +347,12 @@ wa-button.layer-row:last-child::part(base){border-bottom:0}
 .group-align wa-button,.group-nudges wa-button{min-width:0;min-height:36px;padding:6px 3px}
 .manga-panel.group-selected{outline:2px solid var(--accent-dark);outline-offset:3px}
 @media(max-width:760px){.group-align wa-button,.group-nudges wa-button{min-height:44px}}
+
+/* Keep a readable book title above the three workspace actions on phones. */
+@media(max-width:760px){
+ .app>.projectbar{height:106px;min-height:106px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 6px;padding:6px 12px}
+ .projectbar>div:first-child{grid-column:1/-1;width:100%;min-width:0}
+ .projectbar .project-name{width:100%!important;max-width:100%}
+ .projectbar>.project-meta{display:none}
+ .projectbar>wa-button.book-switch{margin:0;min-width:0;width:100%;min-height:44px;height:44px;padding:4px 7px}
+}
