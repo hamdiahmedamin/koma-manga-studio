@@ -264,3 +264,15 @@ Use **Layers** beside the page number to open the Panel inspector's front-to-bac
 **Lock position** prevents panel dragging, resizing, and shape edits, or lettering dragging. A panel's lock also protects its lettering positions. Joined dividers stop when they would move a locked neighbor. Pictures, text, appearance, stacking, and page layout changes remain editable. Unlock from the list at any time. Names, order, and position locks save in editable projects and support Undo/Redo.
 
 Run `node tests/layers.cjs` for legacy migration, names and validation, stacking/content preservation, inherited position locks, joined-divider constraints, real actions, selection, independent duplicates, project round trips, and Undo/Redo.
+
+### Select and arrange several panels
+
+On a Freeform page, open **Layers** and turn on **Select several panels**. Tap panel rows or frames to add or remove them; at least one remains selected. Desktop users can also Shift-click frames or layer rows. **Select all panels** includes every visible panel, and **Keep current only** returns to one panel. Selection is temporary and clears when switching pages or books, undoing, or entering Crop/Shape editing.
+
+With two or more panels selected, use the four movement arrows or **Move group on canvas** to close phone tools and drag any selected frame. Desktop arrow keys also move the group. Each movement button shifts 2% of the page with grid snapping enabled, otherwise 1%. A group stops together at page edges; its relative spacing stays intact.
+
+Align left/center/right or top/middle/bottom inside the selection bounds. Alignment can intentionally overlap panels. With at least three panels selected, **Horizontal** or **Vertical** makes edge gaps equal while retaining the outer bounds. Spacing is disabled when the panels cannot fit without overlapping. If any selected panel has a position lock, group operations are disabled until that panel is unlocked.
+
+Each drag, nudge, alignment, or spacing action supports one Undo step and saves with the book. Pictures, shapes, lettering, names, layer order, and shared-picture membership stay attached to their panels. Group controls change positions; other panel settings continue to edit the current panel. Reader and export use the resulting arrangement, without selection outlines.
+
+Run `node tests/panel-groups.cjs` for 243 boundary translations, six alignments, equal edge spacing, lock and room constraints, transient selection and page/book isolation, real controls and gestures, cancellation/Escape, pointer filtering, limit reversal, project validation, and Undo/Redo.
