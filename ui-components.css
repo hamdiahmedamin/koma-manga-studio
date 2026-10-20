@@ -322,3 +322,6 @@ html,body{height:100%;overflow:hidden}
 .app>.workspace{flex:1 1 0;min-height:0;height:auto;overflow:hidden;grid-template-rows:minmax(0,1fr)}
 .workspace>.library,.workspace>.editor,.workspace>.inspector{min-height:0}
 @media print{html,body{height:auto!important;overflow:visible!important}}
+/* Prevent focus restoration from scrolling the document behind the editor. */
+body{position:fixed;inset:0;width:100%}
+@media print{body{position:static!important;inset:auto!important;width:auto!important}}
