@@ -5,6 +5,8 @@ globalThis.KomaScreenTools=(()=>{
  function devicePoints(kind){const {width,height,screen:[x,y,w,h]}=device(kind);return [[x/width,y/height],[(x+w)/width,y/height],[(x+w)/width,(y+h)/height],[x/width,(y+h)/height]]}
  const defaults=()=>[[.25,.25],[.75,.25],[.75,.75],[.25,.75]];
  function valid(points){if(!Array.isArray(points)||points.length!==4||points.some(p=>!Array.isArray(p)||p.length!==2||p.some(v=>!Number.isFinite(v)||v<0||v>1)))return false;return points.every((p,i)=>{const a=points[(i+1)%4],b=points[(i+2)%4];return (a[0]-p[0])*(b[1]-a[1])-(a[1]-p[1])*(b[0]-a[0])>.00001})}
+ function bounds(points){const x=Math.min(...points.map(p=>p[0])),y=Math.min(...points.map(p=>p[1]));return {x,y,w:Math.max(...points.map(p=>p[0]))-x,h:Math.max(...points.map(p=>p[1]))-y}}
+ function transform(points,action,dx,dy){if(!valid(points)||!Number.isFinite(dx)||!Number.isFinite(dy))return points.map(p=>[...p]);const b=bounds(points),clamp=(v,a,z)=>Math.max(a,Math.min(z,v));let next;if(action==='move'){dx=clamp(dx,-b.x,1-b.x-b.w);dy=clamp(dy,-b.y,1-b.y-b.h);next=points.map(([x,y])=>[x+dx,y+dy])}else if(action==='resize'){const w=clamp(b.w+dx,.04,1-b.x),h=clamp(b.h+dy,.04,1-b.y);next=points.map(([x,y])=>[b.x+(x-b.x)*w/b.w,b.y+(y-b.y)*h/b.h])}else return points.map(p=>[...p]);return valid(next)?next:points.map(p=>[...p])}
  function matrix(q){if(!valid(q))throw Error('Keep four corners in order around the screen.');const [[x0,y0],[x1,y1],[x2,y2],[x3,y3]]=q,dx1=x1-x2,dx2=x3-x2,dx3=x0-x1+x2-x3,dy1=y1-y2,dy2=y3-y2,dy3=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1,g=(dx3*dy2-dx2*dy3)/den,h=(dx1*dy3-dx3*dy1)/den;return [x1-x0+g*x1,x3-x0+h*x3,x0,y1-y0+g*y1,y3-y0+h*y3,y0,g,h,1]}
  function inverse(m){const [a,b,c,d,e,f,g,h,i]=m,A=e*i-f*h,B=c*h-b*i,C=b*f-c*e,D=f*g-d*i,E=a*i-c*g,F=c*d-a*f,G=d*h-e*g,H=b*g-a*h,I=a*e-b*d,det=a*A+b*D+c*G;if(Math.abs(det)<1e-12)throw Error('Make the screen area larger.');return [A,B,C,D,E,F,G,H,I].map(v=>v/det)}
  function point(m,x,y){const w=m[6]*x+m[7]*y+m[8];return [(m[0]*x+m[1]*y+m[2])/w,(m[3]*x+m[4]*y+m[5])/w]}
@@ -19,5 +21,5 @@ globalThis.KomaScreenTools=(()=>{
   }
   return {x,y,width:w,height:h,data};
  }
- return {defaults,valid,matrix,inverse,point,warp,device,devicePoints};
+ return {defaults,valid,matrix,inverse,point,warp,device,devicePoints,bounds,transform};
 })();
