@@ -300,3 +300,5 @@ Select a panel with a picture, then use Image → Replace a phone / TV screen (a
 
 ### Ready-made phone and TV panels
 Open Designer → Layout → Phone panel or TV panel. Choose or upload a screen picture and add the panel. Device frames are included, with screens already fitted. Each device is a new movable/resizable panel; existing panels stay on the page. Undo removes the added panel and its new picture assets together. Use Image → Replace a phone / TV screen to reopen its screen content later.
+
+Phone and TV screen pictures offer Fit whole picture and Fill screen modes to preserve image proportions. The screen editor uses a large preview with desktop side controls and a full-screen phone layout. Older screen edits retain their original stretch setting.
