@@ -297,3 +297,6 @@ The component bundle initializes after the page markup is parsed, preventing a f
 
 ### Replace a phone or TV screen
 Select a panel with a picture, then use Image → Replace a phone / TV screen (also in the panel quick menu). Choose a library picture or upload screen content. Drag four corners clockwise to fit the screen; arrow keys and Shift adjust a focused corner. Screen opacity blends the replacement. Apply creates an edited PNG copy and keeps the original. The copy works in reader, print and all exports. Reopening it restores editable corners and screen content, including after saving an editable project. Undo restores the previous picture.
+
+### Ready-made phone and TV panels
+Open Designer → Layout → Phone panel or TV panel. Choose or upload a screen picture and add the panel. Device frames are included, with screens already fitted. Each device is a new movable/resizable panel; existing panels stay on the page. Undo removes the added panel and its new picture assets together. Use Image → Replace a phone / TV screen to reopen its screen content later.

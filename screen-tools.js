@@ -1,6 +1,8 @@
 'use strict';
 // Projective image mapping shared by the screen editor preview and saved copy.
 globalThis.KomaScreenTools=(()=>{
+ function device(kind){if(kind==='phone')return {name:'Phone',width:500,height:900,screen:[47,100,406,700],body:[25,10,450,880,65]};if(kind==='tv')return {name:'TV',width:900,height:600,screen:[42,42,816,436],body:[20,20,860,480,16]};throw Error('Choose Phone or TV.')}
+ function devicePoints(kind){const {width,height,screen:[x,y,w,h]}=device(kind);return [[x/width,y/height],[(x+w)/width,y/height],[(x+w)/width,(y+h)/height],[x/width,(y+h)/height]]}
  const defaults=()=>[[.25,.25],[.75,.25],[.75,.75],[.25,.75]];
  function valid(points){if(!Array.isArray(points)||points.length!==4||points.some(p=>!Array.isArray(p)||p.length!==2||p.some(v=>!Number.isFinite(v)||v<0||v>1)))return false;return points.every((p,i)=>{const a=points[(i+1)%4],b=points[(i+2)%4];return (a[0]-p[0])*(b[1]-a[1])-(a[1]-p[1])*(b[0]-a[0])>.00001})}
  function matrix(q){if(!valid(q))throw Error('Keep four corners in order around the screen.');const [[x0,y0],[x1,y1],[x2,y2],[x3,y3]]=q,dx1=x1-x2,dx2=x3-x2,dx3=x0-x1+x2-x3,dy1=y1-y2,dy2=y3-y2,dy3=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1,g=(dx3*dy2-dx2*dy3)/den,h=(dx1*dy3-dx3*dy1)/den;return [x1-x0+g*x1,x3-x0+h*x3,x0,y1-y0+g*y1,y3-y0+h*y3,y0,g,h,1]}
@@ -17,5 +19,5 @@ globalThis.KomaScreenTools=(()=>{
   }
   return {x,y,width:w,height:h,data};
  }
- return {defaults,valid,matrix,inverse,point,warp};
+ return {defaults,valid,matrix,inverse,point,warp,device,devicePoints};
 })();
