@@ -6,7 +6,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent
 SHELL = [
-    'index.html', 'ui-components.css', 'vendor/webawesome.js', 'vendor/webawesome.css', 'vendor/WEB-AWESOME-LICENSE.md', 'pwa.js', 'book-store.js', 'image-tools.js', 'book-output.js', 'manifest.webmanifest',
+    'index.html', 'ui-components.css', 'vendor/webawesome.js', 'vendor/webawesome.css', 'vendor/WEB-AWESOME-LICENSE.md', 'pwa.js', 'book-store.js', 'image-tools.js', 'screen-tools.js', 'book-output.js', 'manifest.webmanifest',
     'icons/app-192.png', 'icons/app-512.png',
     'icons/maskable-512.png', 'icons/apple-touch-icon.png',
 ]
