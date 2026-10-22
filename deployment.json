@@ -1,0 +1,564 @@
+{
+  "repository": "https://github.com/hamdiahmedamin/koma-manga-studio",
+  "site": "https://hamdiahmedamin.github.io/koma-manga-studio/",
+  "branch": "main",
+  "commit": "5c8d0bcf253191c1a0cf4e06f12fe854757368cb",
+  "source_directory": "manga-studio",
+  "public_release_approved": true,
+  "https_verified": true,
+  "browser_phone_viewport_verified": {
+    "width": 390,
+    "height": 844
+  },
+  "offline_ready_status_verified": true,
+  "save_and_update_flow_verified": true,
+  "book_library_browser_verified": true,
+  "picture_drag_persistence_verified": true,
+  "legacy_book_migration_verified": true,
+  "pinch_handler_tests_passed": true,
+  "physical_phone_pinch_verified": false,
+  "reader_phone_viewport_verified": true,
+  "reader_directions_and_keyboard_verified": true,
+  "reading_direction_persistence_verified": true,
+  "cbz_browser_generation_verified": true,
+  "cbz_independent_zip_validation_verified": true,
+  "cbz_browser_file_download_verified": false,
+  "custom_layout_phone_browser_verified": true,
+  "custom_layout_file_import_verified": true,
+  "custom_layout_rename_search_persistence_verified": true,
+  "custom_layout_whole_book_apply_undo_verified": true,
+  "custom_layout_content_preservation_verified": true,
+  "custom_layout_invalid_import_error_browser_verified": true,
+  "lettering_phone_browser_verified": true,
+  "lettering_duplicate_edit_undo_verified": true,
+  "lettering_reload_persistence_verified": true,
+  "lettering_reader_rendering_verified": true,
+  "lettering_png_preview_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "lettering_console_errors_observed": false,
+  "designer_professional_workspace_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "designer_preset_and_custom_shapes_verified": true,
+  "designer_corner_drag_keyboard_and_undo_verified": true,
+  "designer_shape_reload_persistence_verified": true,
+  "designer_reader_clipping_verified": true,
+  "designer_png_preview_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "designer_geometry_and_migration_tests_passed": true,
+  "designer_browser_errors_observed": false,
+  "physical_phone_shape_editing_verified": false,
+  "linked_resize_geometry_cases_passed": 2880,
+  "linked_resize_phone_browser_verified": {
+    "width": 390,
+    "height": 844
+  },
+  "linked_resize_two_neighbor_following_verified": true,
+  "linked_resize_gutter_preservation_verified": true,
+  "linked_resize_single_undo_verified": true,
+  "linked_resize_keyboard_and_native_number_input_verified": true,
+  "linked_resize_reopen_persistence_verified": true,
+  "linked_resize_browser_errors_observed": false,
+  "physical_phone_linked_resize_verified": false,
+  "joined_shape_geometry_cases_passed": 720,
+  "joined_shape_phone_browser_verified": {
+    "width": 390,
+    "height": 844
+  },
+  "joined_shape_corner_drag_bends_neighbors_verified": true,
+  "joined_shape_midpoint_t_junction_verified": true,
+  "joined_shape_four_panel_junction_verified": true,
+  "joined_shape_keyboard_and_number_fields_verified": true,
+  "joined_shape_point_removal_and_undo_verified": true,
+  "joined_shape_cutout_selection_verified": true,
+  "joined_shape_grouped_undo_and_reload_verified": true,
+  "joined_shape_png_render_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "joined_shape_reader_verified": true,
+  "shape_mode_page_switch_browser_verified": true,
+  "joined_shape_browser_errors_observed": false,
+  "physical_phone_joined_shape_verified": false,
+  "auto_layout_batch_cases_passed": 144,
+  "auto_layout_browser_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "auto_layout_custom_selection_order_browser_verified": true,
+  "auto_layout_rtl_placement_browser_verified": true,
+  "auto_layout_9_pictures_3_pages_verified": true,
+  "auto_layout_exact_last_page_verified": true,
+  "auto_layout_batch_undo_redo_verified": true,
+  "auto_layout_reload_persistence_verified": true,
+  "auto_layout_sticky_footer_and_hidden_remove_verified": true,
+  "auto_layout_capacity_40_pages_tests_passed": true,
+  "auto_layout_browser_errors_observed": false,
+  "physical_phone_auto_layout_verified": false,
+  "direct_pdf_writer_tests_passed": true,
+  "direct_pdf_real_renderer_poppler_verified": {
+    "pages": 3,
+    "page_size_mm": [
+      148,
+      210
+    ],
+    "image_pixels": [
+      1800,
+      2544
+    ]
+  },
+  "direct_pdf_40_page_independent_parse_verified": true,
+  "direct_pdf_unicode_title_and_rtl_verified": true,
+  "direct_pdf_phone_viewport_verified": [
+    390,
+    844
+  ],
+  "direct_pdf_phone_generation_verified": {
+    "pages": 5,
+    "approx_megabytes": 2.0
+  },
+  "direct_pdf_cancel_and_retry_browser_verified": true,
+  "direct_pdf_save_link_filename_verified": true,
+  "direct_pdf_browser_download_event_verified": false,
+  "direct_pdf_browser_download_event_result": "Timed out after clicking Save PDF; file generation and link verified",
+  "physical_android_pdf_download_verified": false,
+  "direct_pdf_cbz_regression_browser_verified": true,
+  "direct_pdf_desktop_viewport_verified": [
+    1280,
+    900
+  ],
+  "direct_pdf_final_browser_errors_observed": false,
+  "direct_pdf_final_release_phone_generation_verified": true,
+  "character_reference_tests_passed": true,
+  "character_reference_browser_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "character_reference_create_edit_select_browser_verified": true,
+  "character_reference_device_upload_verified": true,
+  "character_reference_upload_undo_redo_verified": true,
+  "character_reference_remove_restore_verified": true,
+  "character_reference_asset_protection_verified": true,
+  "character_reference_reload_persistence_verified": true,
+  "character_reference_multiple_characters_isolation_verified": true,
+  "character_reference_page_navigation_retention_verified": true,
+  "character_reference_keyboard_tabs_verified": true,
+  "character_reference_auto_layout_regression_verified": true,
+  "character_reference_browser_errors_observed": false,
+  "physical_android_character_references_verified": false,
+  "page_organizer_movement_cases_passed": 5116,
+  "page_organizer_browser_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "page_organizer_group_moves_verified": true,
+  "page_organizer_batch_duplicate_undo_redo_verified": true,
+  "page_organizer_remove_confirmation_cancel_undo_verified": true,
+  "page_organizer_keep_one_page_verified": true,
+  "page_organizer_desktop_pointer_group_drag_verified": true,
+  "page_organizer_keyboard_undo_redo_verified": true,
+  "page_organizer_active_page_identity_verified": true,
+  "page_organizer_reload_order_persistence_verified": true,
+  "page_organizer_character_reference_preservation_verified": true,
+  "page_organizer_edit_selected_page_verified": true,
+  "page_organizer_original_test_order_restored": true,
+  "page_organizer_browser_errors_observed": false,
+  "physical_android_page_organizer_verified": false,
+  "speech_tail_geometry_cases_passed": 2400,
+  "speech_tail_browser_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "speech_tail_four_sides_and_controls_verified": true,
+  "speech_tail_reset_undo_redo_verified": true,
+  "speech_tail_visibility_and_clipping_warning_verified": true,
+  "speech_tail_reload_persistence_verified": true,
+  "speech_tail_reader_verified": true,
+  "speech_tail_png_preview_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "speech_tail_canvas_render_and_rotation_verified": true,
+  "speech_tail_browser_errors_observed": false,
+  "physical_android_speech_tail_verified": false,
+  "picture_span_geometry_cases_passed": 45,
+  "picture_crop_phone_viewport_verified": [
+    390,
+    844
+  ],
+  "picture_crop_auto_mode_on_placement_verified": true,
+  "picture_crop_single_panel_drag_verified": true,
+  "picture_crop_zoom_500_percent_verified": true,
+  "picture_span_four_and_two_panel_selection_verified": true,
+  "picture_span_shared_drag_zoom_keyboard_verified": true,
+  "picture_span_single_undo_redo_verified": true,
+  "picture_span_detach_and_replacement_verified": true,
+  "picture_span_divider_resize_alignment_verified": true,
+  "picture_span_reload_persistence_verified": true,
+  "picture_span_reader_verified": true,
+  "picture_span_png_preview_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "picture_span_native_canvas_rotation_and_diagonal_verified": true,
+  "picture_span_browser_errors_observed": false,
+  "physical_android_picture_span_verified": false,
+  "crop_fit_grid_cases_passed": 2807,
+  "crop_fit_grid_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "crop_fit_fill_shared_picture_verified": true,
+  "crop_grid_drag_keyboard_and_undo_verified": true,
+  "crop_grid_offset_slider_step_verified": true,
+  "crop_grid_settings_toggle_and_crop_only_guides_verified": true,
+  "crop_grid_reload_persistence_verified": true,
+  "crop_grid_export_identical_pixels_verified": true,
+  "crop_fit_grid_browser_errors_observed": false,
+  "physical_android_crop_fit_grid_verified": false,
+  "picture_alignment_cases_passed": 6480,
+  "picture_alignment_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "picture_alignment_shared_500_percent_zoom_verified": true,
+  "picture_alignment_flip_and_undo_redo_verified": true,
+  "picture_alignment_reload_persistence_verified": true,
+  "picture_alignment_png_preview_verified": {
+    "width": 1800,
+    "height": 2544
+  },
+  "picture_alignment_browser_errors_observed": false,
+  "physical_android_picture_alignment_verified": false,
+  "crop_copy_tests_passed": true,
+  "crop_copy_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "crop_copy_different_picture_and_color_preservation_verified": true,
+  "crop_copy_shared_target_verified": true,
+  "crop_copy_undo_redo_verified": true,
+  "crop_copy_noop_history_verified": true,
+  "crop_copy_paste_reload_persistence_verified": true,
+  "crop_copy_clipboard_reload_reset_verified": true,
+  "crop_copy_original_demo_span_restored": true,
+  "crop_copy_browser_errors_observed": false,
+  "physical_android_crop_copy_verified": false,
+  "saved_crop_tests_passed": true,
+  "saved_crop_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "saved_crop_create_select_apply_shared_picture_verified": true,
+  "saved_crop_rename_remove_and_undo_verified": true,
+  "saved_crop_reload_and_reapply_verified": true,
+  "saved_crop_legacy_backup_book_isolation_and_limits_tests_passed": true,
+  "saved_crop_browser_errors_observed": false,
+  "physical_android_saved_crops_verified": false,
+  "web_awesome_version": "3.14.0",
+  "web_awesome_local_offline_bundle_verified": true,
+  "web_awesome_buttons_migrated": 101,
+  "web_awesome_settings_disclosures_migrated": 7,
+  "web_awesome_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "web_awesome_keyboard_and_form_submission_verified": true,
+  "web_awesome_accessible_labels_and_states_verified": true,
+  "web_awesome_crop_apply_and_undo_verified": true,
+  "web_awesome_browser_errors_observed": false,
+  "web_awesome_physical_android_verified": false,
+  "web_awesome_published_hashes_verified": true,
+  "service_worker_version": "60364eb29212d4be",
+  "web_awesome_selects_migrated": 12,
+  "web_awesome_select_panel_crop_fit_reader_and_keyboard_verified": true,
+  "web_awesome_select_phone_option_height": 44,
+  "web_awesome_select_browser_errors_observed": false,
+  "web_awesome_select_final_published_hashes_verified": true,
+  "web_awesome_inputs_migrated": 15,
+  "web_awesome_textareas_migrated": 2,
+  "web_awesome_fields_typing_search_required_form_and_dialogue_verified": true,
+  "web_awesome_number_fields_linked_resize_and_undo_verified": true,
+  "web_awesome_fields_viewports_verified": {
+    "desktop": [
+      1280,
+      900
+    ],
+    "phone": [
+      390,
+      844
+    ]
+  },
+  "web_awesome_fields_published_hashes_verified": true,
+  "web_awesome_fields_browser_errors_observed": false,
+  "web_awesome_fields_test_content_restored": true,
+  "web_awesome_sliders_migrated": 22,
+  "web_awesome_switches_migrated": 7,
+  "web_awesome_static_checkboxes_migrated": 4,
+  "web_awesome_dynamic_panel_checkboxes_migrated": true,
+  "web_awesome_slider_drag_single_undo_shared_zoom_snap_and_reader_verified": true,
+  "web_awesome_switch_boolean_guides_flip_keyboard_and_undo_verified": true,
+  "web_awesome_dynamic_checkbox_source_disabled_and_select_all_verified": true,
+  "web_awesome_slider_phone_hit_height": 44,
+  "web_awesome_slider_switch_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "web_awesome_slider_switch_browser_errors_observed": false,
+  "web_awesome_slider_switch_published_hashes_verified": true,
+  "web_awesome_slider_switch_test_content_restored": true,
+  "web_awesome_color_pickers_migrated": 6,
+  "web_awesome_color_swatches_hex_entry_invalid_revert_and_undo_verified": true,
+  "web_awesome_color_phone_popup_bounds": {
+    "x": 78,
+    "y": 109.578125,
+    "width": 280,
+    "height": 421.5
+  },
+  "web_awesome_color_phone_swatch_height": 60,
+  "web_awesome_color_viewports_verified": {
+    "desktop": [
+      1280,
+      900
+    ],
+    "phone": [
+      390,
+      844
+    ]
+  },
+  "web_awesome_color_published_hashes_verified": true,
+  "web_awesome_color_test_content_restored": true,
+  "web_awesome_color_browser_errors_observed": false,
+  "web_awesome_designer_tabs_migrated": 5,
+  "web_awesome_export_menu_migrated": true,
+  "web_awesome_tabs_keyboard_programmatic_navigation_and_sticky_phone_verified": true,
+  "web_awesome_export_keyboard_pdf_generation_verified": true,
+  "web_awesome_menu_phone_labels_and_bounds_verified": true,
+  "web_awesome_menu_tabs_published_hashes_verified": true,
+  "web_awesome_menu_tabs_browser_errors_observed": false,
+  "web_awesome_menu_tabs_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "web_awesome_library_tabs_migrated": 2,
+  "web_awesome_mobile_page_actions_migrated": 5,
+  "web_awesome_library_keyboard_character_edit_undo_and_auto_selection_verified": true,
+  "web_awesome_page_menu_keyboard_disabled_items_duplicate_move_organizer_undo_verified": true,
+  "web_awesome_library_page_menu_test_content_restored": true,
+  "web_awesome_library_page_menu_published_hashes_verified": true,
+  "web_awesome_library_page_menu_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "web_awesome_confirmation_dialog_migrated": true,
+  "web_awesome_feedback_callout_migrated": true,
+  "web_awesome_export_progress_migrated": true,
+  "web_awesome_confirm_cancel_escape_accept_undo_and_organizer_browser_verified": true,
+  "web_awesome_feedback_keyboard_pause_dismiss_and_focus_return_verified": true,
+  "web_awesome_progress_two_page_pdf_and_100_percent_verified": true,
+  "web_awesome_feedback_viewports_verified": {
+    "phone": [
+      390,
+      844
+    ],
+    "desktop": [
+      1280,
+      900
+    ]
+  },
+  "web_awesome_feedback_test_content_restored": true,
+  "web_awesome_feedback_published_hashes_verified": true,
+  "web_awesome_upgrade_complete": true,
+  "final_test_suites_passed": 20,
+  "final_native_dialog_names_verified": true,
+  "final_inner_tab_menu_names_and_expanded_states_verified": true,
+  "final_phone_no_horizontal_overflow_verified": [
+    320,
+    390
+  ],
+  "final_desktop_no_horizontal_overflow_verified": 1280,
+  "final_phone_settings_escape_preserves_drawer_verified": true,
+  "final_reader_cbz_and_1800x2544_png_browser_verified": true,
+  "final_offline_worker_network_failure_tests_passed": true,
+  "final_offline_physical_android_airplane_mode_verified": false,
+  "final_release_and_zip_match_source": true,
+  "final_narrow_phone_all_five_designer_panes_no_internal_overflow": true,
+  "final_help_labels_refreshed": true,
+  "outer_document_scrollbar_fixed": true,
+  "outer_scroll_fix_focus_restore_resize_regression_verified": true,
+  "outer_scroll_fix_viewports_verified": [
+    [
+      1360,
+      776
+    ],
+    [
+      1360,
+      500
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "outer_scroll_fix_inner_settings_scroll_preserved": true,
+  "outer_scroll_fix_browser_errors_observed": false,
+  "layers_browser_verified": true,
+  "layers_mobile_320_verified": true,
+  "layers_save_reload_undo_verified": true,
+  "layers_inherited_lock_verified": true,
+  "layers_test_book_restored": true,
+  "layers_release_version": "8e86620692c9aef6",
+  "panel_groups_release_version": "8ea6aa97f976d5a2",
+  "panel_groups_automated_suites": 23,
+  "panel_groups_desktop_drag_keyboard_undo_verified": true,
+  "panel_groups_mobile_320_verified": true,
+  "panel_groups_public_files_match": true,
+  "panel_groups_offline_zip_match": true,
+  "phone_drawer_backdrop_fixed": true,
+  "panel_groups_layer_focus_regression_test_passed": true,
+  "panel_groups_no_new_browser_errors": true,
+  "panel_groups_test_book_restored": true,
+  "panel_groups_final_update_activated": true,
+  "png_arabic_new_book_version": "ae152582a3270ed0",
+  "png_arabic_new_book_test_suites": 25,
+  "provided_png_validated_and_imported": true,
+  "png_alpha_pixels_browser_verified": true,
+  "arabic_direction_reader_browser_verified": true,
+  "direct_new_book_create_cancel_browser_verified": true,
+  "phone_new_book_320_layout_verified": true,
+  "component_startup_race_fixed": true,
+  "png_arabic_new_book_update_activated": true,
+  "published_new_book_cancel_verified": true,
+  "published_phone_header_no_overflow": true,
+  "page_zoom_max_percent": 500,
+  "page_zoom_release_version": "55956127bcf44f47",
+  "page_zoom_desktop_mobile_limits_checked": true,
+  "bubble_opacity_version": "77a1e69d7d248aba",
+  "bubble_opacity_phone_desktop_verified": true,
+  "bubble_opacity_tests_passed": true,
+  "bubble_background_opacity_version": "9a60f762409a86a8",
+  "bubble_background_only_browser_verified": true,
+  "canvas_quick_actions_version": "befdfbc2a7bdd82c",
+  "canvas_quick_actions_all_27_suites_passed": true,
+  "canvas_quick_actions_phone_320_verified": true,
+  "canvas_quick_actions_keyboard_delete_undo_verified": true,
+  "page_wheel_zoom_version": "3646d5e128f3bdb3",
+  "page_wheel_zoom_in_out_cursor_anchor_fit_browser_verified": true,
+  "page_wheel_zoom_limits_modifiers_test_passed": true,
+  "screen_replacement_version": "ee96f3d8d85a1829",
+  "screen_replacement_suites_passed": 29,
+  "screen_replacement_original_preserved_pixels_verified": true,
+  "screen_replacement_corner_drag_reopen_undo_verified": true,
+  "screen_replacement_phone_390_no_overflow_verified": true,
+  "device_templates_version": "ed86176693159bde",
+  "device_templates_suites_passed": 30,
+  "device_templates_phone_add_undo_tv_add_reopen_verified": true,
+  "device_templates_frame_alpha_and_tv_stand_verified": true,
+  "device_templates_screen_dependencies_protected": true,
+  "screen_shape_lettering_version": "f8e957fea67d29c7",
+  "screen_shape_lettering_suites_passed": 31,
+  "screen_shape_mouse_move_resize_verified": true,
+  "lettering_bold_italic_undo_redo_reload_verified": true,
+  "screen_shape_lettering_final_version": "7b43a1c9214ec436",
+  "device_picture_fit_update": {
+    "status": "published",
+    "commit": "fd2a6998429a34f3fe205cf3400760bbefc8561b",
+    "service_worker_version": "764373b2ef741e62",
+    "suites_passed": 31,
+    "desktop_phone_preview_height": 518,
+    "mobile_editor_verified": [
+      390,
+      844
+    ],
+    "fit_modes": [
+      "contain",
+      "cover",
+      "stretch"
+    ],
+    "saved_fit_reopen_verified": true,
+    "device_layers_with_previews": true
+  }
+}
